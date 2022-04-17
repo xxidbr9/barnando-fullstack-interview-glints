@@ -17,5 +17,7 @@ export const KEYS = {
   AccountApplication: Symbol('AccountApplication'),
   RestaurantApplication: Symbol('RestaurantApplication'),
   FavoriteApplication: Symbol('FavoriteApplication'),
+  NotifierApplication: Symbol('NotifierApplication'),
+
 
 };

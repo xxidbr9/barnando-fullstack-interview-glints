@@ -3,9 +3,10 @@ import { KEYS } from "@core/keys";
 import { inject, injectable } from "inversify";
 import { DataSource } from "typeorm";
 import { AccountEntity } from "../domain";
+import { IAccountRepository } from "./IAccount.repo";
 
 @injectable()
-export class AccountRepository {
+export class AccountRepository implements IAccountRepository {
   constructor(
     @inject(KEYS.PostgresDB) private readonly db: DataSource,
     @inject(KEYS.AccountDataMapper) private readonly accountDataMapper: IDataMapper<AccountEntity>

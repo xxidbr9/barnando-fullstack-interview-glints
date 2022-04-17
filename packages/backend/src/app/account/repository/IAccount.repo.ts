@@ -1,2 +1,4 @@
 
-export interface IAccountRepository { }
+export interface IAccountRepository { 
+  
+}
