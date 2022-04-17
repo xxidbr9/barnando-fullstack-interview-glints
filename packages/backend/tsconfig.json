@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES6",
     "module": "commonjs",
     "lib": ["es6", "ESNext"],
     "outDir": "./dist",
@@ -17,10 +17,12 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "@app/*": ["app/*"],
       "@core/*": ["core/*"],
       "@config/*": ["config/*"],
       "@shared/*": ["shared/*"],
-      "@types/*": ["shared/types/*"]
+      "@types/*": ["shared/types/*"],
+      "@infrastructure/*": ["infrastructure/*"]
     }
   },
   "exclude": ["node_modules", "__tests__"]

@@ -8,11 +8,12 @@ module.exports = {
   testMatch: ["**/__tests__/**/*.+(ts|js)", "**/?(*.)+(spec|test).+(ts|js)"],
   collectCoverageFrom: ["src/**/*.{ts,js}", "!src/**/*.d.ts"],
   moduleNameMapper: {
-    "^@app/(.*)": "<rootDir>/src/application/$1",
+    "^@app/(.*)": "<rootDir>/src/app/$1",
     "^@core/(.*)": "<rootDir>/src/core/$1",
     "^@config/(.*)": "<rootDir>/src/config/$1",
     "^@shared/(.*)": "<rootDir>/src/shared/$1",
     "^@types/(.*)": "<rootDir>/src/shared/types/$1",
+    "^@infrastructure/(.*)": "<rootDir>/src/infrastructure/$1"
   },
   coverageThreshold: {
     global: {
@@ -37,9 +38,13 @@ module.exports = {
     "entrypoint.ts",
     "container.ts",
     ".mock.ts",
+    "db",
+    "test[A-Za-z]*.ts",
     "I[A-Za-z]*.ts",
     "[A-Za-z]*.d.ts",
     "<rootDir>/src/index.ts",
-    "[A-Za-z]*Dto.ts"
+    "[A-Za-z]*dto.ts",
+    "keys*.*",
+    "[A-Za-z]*.container.*"
   ]
 };
