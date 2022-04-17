@@ -1,0 +1,13 @@
+{
+    "name": "barnando-fullstack-interview-glints",
+    "version": "0.1.0",
+    "description": "Interview test for fullstack developer position in glints",
+    "main": "index.js",
+    "repository": "https://github.com/xxidbr0/barnando-fullstack-interview-glints",
+    "author": "Barnando Akbarto Hidayatullah",
+    "license": "MIT",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ]
+}
