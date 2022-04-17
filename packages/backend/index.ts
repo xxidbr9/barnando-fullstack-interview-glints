@@ -1,4 +1,3 @@
-const halloWorld = "Hallo"
+const halloWorld = "Hallo";
 
-console.
-log(halloWorld)
+console.log(halloWorld);
