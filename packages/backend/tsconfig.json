@@ -17,6 +17,7 @@
       "noFallthroughCasesInSwitch": true,
       "moduleResolution": "node",
       "baseUrl": ".",
+      "allowJs": false,
       "allowSyntheticDefaultImports": true,
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true,
