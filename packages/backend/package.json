@@ -1,0 +1,15 @@
+{
+    "name": "backend",
+    "version": "0.1.0",
+    "description": "Backend server",
+    "main": "index.js",
+    "author": "Barnando Akbarto Hidayatullah",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "jalan": "echo \"Hallo World\""
+    },
+    "dependencies": {
+        "express": "^4.17.3"
+    }
+}
