@@ -2,7 +2,7 @@ import { injectable } from 'inversify';
 import { IDataMapper } from '@core/domain/IDataMapper';
 import { AccountEntity } from '../domain';
 
-// @injectable()
+@injectable()
 export class AccountDataMapper implements IDataMapper<AccountEntity> {
   toDomain(dalEntity: AccountEntity): AccountEntity {
     const entity = new AccountEntity()

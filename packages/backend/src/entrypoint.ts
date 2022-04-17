@@ -8,7 +8,6 @@ import { Application as ExpressApplication } from 'express';
 import { applicationContainerModule } from '@app/app.container';
 import { infrastructureContainerModule } from '@infrastructure/infra.container';
 import { errorHandler, notFoundHandler } from '@infrastructure/transport/http/middleware';
-import { KEYS } from '@core/keys';
 
 const initialize = async () => {
   const container = new Container();

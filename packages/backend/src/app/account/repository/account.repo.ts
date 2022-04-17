@@ -4,13 +4,12 @@ import { inject, injectable } from "inversify";
 import { DataSource } from "typeorm";
 import { AccountEntity } from "../domain";
 
-// @injectable()
+@injectable()
 export class AccountRepository {
   constructor(
     @inject(KEYS.PostgresDB) private readonly db: DataSource,
     @inject(KEYS.AccountDataMapper) private readonly accountDataMapper: IDataMapper<AccountEntity>
   ) {
-    console.log("hallo world")
     // super(db.collection('users'), userDataMapper);
 
   }
