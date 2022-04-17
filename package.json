@@ -7,7 +7,28 @@
     "author": "Barnando Akbarto Hidayatullah",
     "license": "MIT",
     "private": true,
+    "scripts": {
+        "prettier": "prettier src --check && yarn pretty",
+        "pretty": "yarn lint && pretty-quick --staged",
+        "lint-staged": "lint-staged --allow-empty --config lint-staged.js",
+        "husky-install": "husky install",
+        "prepare": "yarn husky-install"
+    },
     "workspaces": [
         "packages/*"
-    ]
+    ],
+    "husky": {
+        "hooks": {
+            "pre-commit": "yarn pretty"
+        }
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^16.2.3",
+        "@commitlint/config-conventional": "^16.2.1",
+        "eslint": "^8.13.0",
+        "husky": "^7.0.4",
+        "lint-staged": "^12.3.8",
+        "prettier": "^2.6.2",
+        "pretty-quick": "^3.1.3"
+    }
 }
