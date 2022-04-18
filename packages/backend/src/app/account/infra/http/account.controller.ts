@@ -9,6 +9,7 @@ import { ApplicationError } from '@core/domain/AppError';
 import { shallowEqual } from 'shallow-equal-object';
 import jwt from 'jsonwebtoken';
 import config from '@config/main';
+import jwtParserMiddleware from '@infrastructure/transport/http/middleware/jwtParser.middleware';
 
 @controller('/api/v1/account')
 export class AccountController {
@@ -17,10 +18,10 @@ export class AccountController {
     private readonly service: AccountApplicationService
   ) { }
 
-  @httpGet('/profile')
+  @httpGet('/profile', jwtParserMiddleware)
   async accountProfile(@request() req: Request, @response() res: Response) {
-    this.service.sayHallo()
-    return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
+    const profile = await this.service.profile(req.body.jwt_payload.user_id)
+    return res.status(statusCode.OK).json(resp({ profile }, 'success get user profile'));
   }
 }
 
@@ -56,13 +57,12 @@ export class AuthController {
     }
 
     await this.service.register(email, password, fullName)
-    return res.status(statusCode.OK).json(resp({}, 'Success register'));
+    return res.status(statusCode.OK).json(resp({}, 'success register'));
   }
 
   @httpPost('/login')
   async accountLogin(@request() req: Request, @response() res: Response) {
     // normally i do refresh token, short expire time for secure the access
-    // const data = jwt.sign({ user_id: 123 }, config.JWT_SALT, {})
     const email = req.body.email
     if (!email || email === "") {
       throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "email are required")
@@ -72,10 +72,11 @@ export class AuthController {
     if (!password || password === "") {
       throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "password are required")
     }
+    
     try {
       const userID = await this.service.login(email, password)
       const jwtData = jwt.sign({ user_id: userID }, config.JWT_SALT)
-      return res.status(statusCode.OK).json(resp({ access_token: jwtData }, 'Success, but normally i do refresh_token, and a short expire time for secure the access'));
+      return res.status(statusCode.OK).json(resp({ access_token: jwtData }, 'success, but normally i do refresh_token, and a short expire time for secure the access'));
     } catch (err) {
       const error = err as { message: string }
       throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, error.message)

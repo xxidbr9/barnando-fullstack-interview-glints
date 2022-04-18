@@ -4,6 +4,6 @@ export class AccountDto {
     public fullName: string,
     public email: string,
     public pictureProfileUrl: string,
-    public password: string
+    public password?: string
   ) { }
 }

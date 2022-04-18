@@ -2,6 +2,7 @@ import { KEYS } from "@core/keys";
 import { inject, injectable } from "inversify";
 import { AccountRepository } from "../repository/account.repo";
 import bcrypt from 'bcrypt'
+import { AccountDto } from "../dtos/account.dto";
 
 /* 
 ? TODO ?
@@ -16,9 +17,12 @@ export class AccountApplicationService {
     private readonly accountRepository: AccountRepository
   ) { }
 
-  sayHallo() {
-    console.log("haii")
+  async profile(userID: string) {
+    const user = await this.accountRepository.findByID(userID)
+    return new AccountDto(user?.id as string, user?.fullName as string, user?.email as string, user?.pictureProfileUrl as string)
   }
+
+
 
   async register(email: string, password: string, fullName: string) {
 
