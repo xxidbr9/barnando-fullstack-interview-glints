@@ -11,7 +11,6 @@ import { IDataMapper } from "@core/domain/IDataMapper";
 import { AccountDataMapper } from "@app/account/mappers/account.mapper";
 import { AccountRepository } from "@app/account/repository/account.repo";
 
-
 export const infrastructureContainerModule = new AsyncContainerModule(async (bind: interfaces.Bind) => {
 
   // setup database

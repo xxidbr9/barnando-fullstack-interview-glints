@@ -20,4 +20,9 @@ export const KEYS = {
   NotifierApplication: Symbol('NotifierApplication'),
 
 
+  // Websocket
+  WebSocketController: Symbol('WebSocketController'),
+
+
+
 };
