@@ -6,9 +6,10 @@ import { ConnectedSocket, Controller, OnConnect, OnDisconnect, OnMessage, Payloa
 import { Socket } from "socket.io";
 import { DataSource } from "typeorm";
 import { AccountEntity } from '@app/account/domain';
+import { FavoriteRestaurantEntity } from '@app/favorites/domain';
 
 @injectable()
-@Controller("")
+@Controller("/favorite")
 export class WebSocketController {
   constructor(
     @inject(KEYS.PostgresDB) private readonly db: DataSource,
@@ -26,31 +27,30 @@ export class WebSocketController {
     console.log("Client disconnected");
   }
 
-  @OnMessage("message")
-  async message(@Payload() payload: FavoriteWSPayload, @ConnectedSocket() socket: Socket) {
-    // const repo = this.db.getRepository(AccountEntity)
+  // listen to user adding new item
+  @OnMessage("update_total")
+  async updatesTotal(@Payload() payload: FavoriteWSPayload, @SocketIO() socket: Socket,) {
+    const repoFav = this.db.getRepository(FavoriteRestaurantEntity)
+    const total = await repoFav.createQueryBuilder()
+      .where("favorite_id = :id", { id: payload.favorite_id })
+      .getCount()
 
-    // const b = await repo.createQueryBuilder()
-    //   .where('full_name ILIKE :searchQuery', { searchQuery: `%barnando%` })
-    //   .getOne()
-
-    // console.log(b)
-
-    socket.emit(payload.room_id, { ...payload });
+    socket.emit(payload.favorite_id, { total });
   }
 
-  @OnMessage("updates")
-  updates(@Payload() payload: FavoriteWSPayload, @SocketIO() socket: Socket) {
-    console.group("========== ok")
-    console.log(payload)
-    console.groupEnd()
-    socket.emit(payload.room_id, { ...payload });
-    socket.emit("hello", { ...payload });
+  // listen to user adding new item on list
+  @OnMessage("update_list")
+  async updateList(@Payload() payload: FavoriteWSPayload, @SocketIO() socket: Socket,) {
+    const repoFav = this.db.getRepository(FavoriteRestaurantEntity)
+    const resp = await repoFav.createQueryBuilder()
+      .where("favorite_id = :id", { id: payload.favorite_id })
+
+    socket.emit(payload.favorite_id, resp);
   }
 }
 
 type FavoriteWSPayload = {
-  room_id: string
+  favorite_id: string
   total: number
   hightLighted: string
 }

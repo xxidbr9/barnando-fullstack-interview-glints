@@ -16,5 +16,4 @@ export class CommonController {
     console.log(req.body)
     return res.status(statusCode.OK).json(resp({ ping: "PONG!!! from jwt", jwt_payload: req.body.jwt_payload }, 'Success'));
   }
-
 }
