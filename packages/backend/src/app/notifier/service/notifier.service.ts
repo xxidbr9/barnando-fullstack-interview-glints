@@ -36,6 +36,7 @@ export class NotifierApplicationService {
     const mg = mailgun({ apiKey: MAILGUN_API_KEY, domain: DOMAIN });
 
     mg.messages().send(mail, function (err: any, body: any) {
+      /* istanbul ignore if */
       if (err) {
         throw new ApplicationError("500", 500, err)
       }

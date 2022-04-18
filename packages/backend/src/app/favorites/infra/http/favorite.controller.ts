@@ -1,4 +1,4 @@
-import { controller, httpGet, httpPost, request, response } from 'inversify-express-utils';
+import { controller, httpDelete, httpGet, httpPost, request, response } from 'inversify-express-utils';
 import { Request, Response } from 'express';
 import statusCode from 'http-status-codes';
 import { resp } from '@infrastructure/transport/http/processor'
@@ -15,18 +15,23 @@ export class FavoritesController {
     @inject(KEYS.NotifierApplication) private readonly notifierService: NotifierApplicationService
   ) { }
 
-  @httpGet("/hai")
-  async hai(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
-  }
-
   @httpPost("/create")
   async createNewFavorite(@request() req: Request, @response() res: Response) {
     return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
   }
 
+  @httpDelete('/remove/:favorite_id')
+  async removeFavorite(@request() req: Request, @response() res: Response) {
+    return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
+  }
+
   @httpPost('/add/:favorite_id')
   async addNewRestaurantToFavorite(@request() req: Request, @response() res: Response) {
+    return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
+  }
+
+  @httpDelete('/remove/:favorite_id/:restaurant_id')
+  async removeRestaurantToFavorite(@request() req: Request, @response() res: Response) {
     return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
   }
 
@@ -54,7 +59,7 @@ export class FavoritesController {
 
     this.notifierService.sendInvitation(toEmail, fromUserFullName, linkToFavorite, favoriteName)
 
-    return res.status(statusCode.OK).json(resp({}, 'Success send and invitation to your friend email'));
+    return res.status(statusCode.OK).json(resp({}, 'Success send an invitation to your friend email'));
   }
 
 }

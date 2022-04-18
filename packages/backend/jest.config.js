@@ -45,6 +45,7 @@ module.exports = {
     "<rootDir>/src/index.ts",
     "[A-Za-z]*dto.ts",
     "keys*.*",
-    "[A-Za-z]*.container.*"
+    "[A-Za-z]*.container.*",
+    "core/*"
   ]
 };

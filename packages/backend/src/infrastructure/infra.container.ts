@@ -10,7 +10,6 @@ import { RestaurantEntity, RestaurantOpenTimeEntity } from "@app/restaurant/doma
 import { IDataMapper } from "@core/domain/IDataMapper";
 import { AccountDataMapper } from "@app/account/mappers/account.mapper";
 import { AccountRepository } from "@app/account/repository/account.repo";
-import { IAccountRepository } from "@app/account/repository/IAccount.repo";
 
 
 export const infrastructureContainerModule = new AsyncContainerModule(async (bind: interfaces.Bind) => {
@@ -40,7 +39,7 @@ export const infrastructureContainerModule = new AsyncContainerModule(async (bin
   bind<IDataMapper<AccountEntity>>(KEYS.AccountDataMapper).to(AccountDataMapper);
 
   // Bind Repo
-  bind<IAccountRepository>(KEYS.AccountRepository).to(AccountRepository);
+  bind<AccountRepository>(KEYS.AccountRepository).to(AccountRepository);
 
   // INITIALIZE DATABASE
   DB.initialize()

@@ -16,7 +16,7 @@ export class FavoriteEntity {
     type: "text",
     name: "user_id"
   })
-  userID!: string
+  userID?: string
 
   @Column({
     type: "text",
@@ -25,4 +25,7 @@ export class FavoriteEntity {
   })
   @Index()
   parentID!: string
+
+  @Column({ type: "date", name: "create_at" })
+  createAt!: Date | number
 }

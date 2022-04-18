@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryColumn } from "typeorm"
+import { Entity, Column, PrimaryColumn, Index } from "typeorm"
 
 @Entity({
   name: "account"
 })
 export class AccountEntity {
   @PrimaryColumn("text")
-  id!: string
+  id?: string
 
   @Column({
     length: 200,
@@ -14,7 +14,8 @@ export class AccountEntity {
   })
   fullName!: string
 
-  @Column("text")
+  @Column({ type: "text" })
+  @Index()
   email!: string
 
   @Column({
@@ -22,7 +23,7 @@ export class AccountEntity {
     type: "text",
     nullable: true
   })
-  pictureProfileUrl!: string
+  pictureProfileUrl?: string
 
   @Column("text")
   password!: string
