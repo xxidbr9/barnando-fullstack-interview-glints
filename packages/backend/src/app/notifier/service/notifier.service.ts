@@ -46,4 +46,9 @@ export class NotifierApplicationService {
     return null
   }
 
+  // push notification via FCM
+  async sendNotificationToUser(deviceID: string) {
+
+  }
+
 }
