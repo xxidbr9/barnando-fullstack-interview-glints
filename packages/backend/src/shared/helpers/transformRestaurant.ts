@@ -2,8 +2,6 @@ import { DAYS } from "@shared/constants/days";
 import { DayOfTheWeek, DayToDay } from "@shared/types/day";
 import momentTZ from "moment-timezone";
 
-momentTZ.locale("Asia/Jakarta")
-
 export const range = (start: number, stop: number) => {
   if (start < stop) {
     return Array.from({ length: stop - start + 1 }, (_, i) => start + i);
