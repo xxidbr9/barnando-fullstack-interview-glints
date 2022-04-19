@@ -17,7 +17,7 @@ import path from 'path';
     "@transport": `${__dirname}/transport`
   });
 
-  dotenv.config({ path: path.join(__dirname, `./.env.${process.env.NODE_ENV}`) });
+  dotenv.config({ path: path.join(process.env.PWD as string, `./.env.${process.env.NODE_ENV}`) });
   console.log(`You are running in : ${process.env.NODE_ENV} MODE!!`)
   // await initialize();
   await import("./entrypoint").then(mod => mod.initialize());
