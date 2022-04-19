@@ -30,7 +30,7 @@ describe("Test all notification entity", () => {
 
     const repo = DB.dbConnect.getRepository(PushNotificationEntity)
 
-    const resp = repo.save(pushNotification)
+    const resp = await repo.save(pushNotification)
     expect(resp).toEqual(pushNotification)
   })
 

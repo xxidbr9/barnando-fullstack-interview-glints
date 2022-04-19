@@ -1,5 +1,5 @@
 import { DAYS } from "@shared/constants/days";
-import { DayOfTheWeek } from "@shared/types/day";
+import { DayOfTheWeek, DayToDay } from "@shared/types/day";
 import moment from "moment"
 
 export const range = (start: number, stop: number) => {
@@ -28,18 +28,12 @@ export function checkIsNumeric(str: string):boolean {
   return !isNaN(parseFloat(str[0]));
 }
 
-type Day = {
-  day: number,
-  closeTime: number,
-  openTime: number
-}
-
 const parseDay = (token: string) => {
   const dayToken = token.split(" ");
-  const days: Day[] = [];
+  const days: DayToDay[] = [];
   let dayList: number[] = [];
-  let openTimes: Pick<Day, "openTime">[] = [];
-  let closeTimes: Pick<Day, "closeTime">[] = [];
+  let openTimes: Pick<DayToDay, "openTime">[] = [];
+  let closeTimes: Pick<DayToDay, "closeTime">[] = [];
 
   // Boolean
   let isTime = false;
@@ -102,7 +96,7 @@ const parseDay = (token: string) => {
     if (!isTime && item === "-") {
       const dayToDay = [dayToken[index - 1], dayToken[index + 1]];
       dayList = calculateDayRange(dayToDay);
-      isDayStep = true;
+      isDayStep = false;
     }
 
     const reNextDay = /\//g;
@@ -119,7 +113,7 @@ const parseDay = (token: string) => {
   });
 
   openTimes.forEach((_, i) => {
-    days.push({ ...openTimes[i], ...closeTimes[i] } as Day);
+    days.push({ ...openTimes[i], ...closeTimes[i] } as DayToDay);
   });
 
   return days;

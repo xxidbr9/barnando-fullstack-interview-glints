@@ -11,7 +11,7 @@ export class PushNotificationEntity {
   })
   fcmToken!: string
 
-  @OneToOne(() => AccountEntity)
+  @OneToOne(() => AccountEntity, (user) => user.id, { onDelete: "CASCADE" })
   @Column({
     name: "user_id",
     type: "text"

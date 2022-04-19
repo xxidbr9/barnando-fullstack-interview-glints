@@ -9,10 +9,10 @@ import moduleAlias from "module-alias";
   moduleAlias.addAliases({
     "@core": `${__dirname}/core`,
     "@config": `${__dirname}/config`,
-    "@constants": `${__dirname}/constants`,
-    "@domain": `${__dirname}/domain`,
     "@app": `${__dirname}/app`,
+    "@shared": `${__dirname}/shared`,
     "@infrastructure": `${__dirname}/infrastructure`,
+    "@assets": `${__dirname}/assets`,
     "@transport": `${__dirname}/transport`
   });
 

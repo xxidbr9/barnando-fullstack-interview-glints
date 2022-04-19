@@ -1,5 +1,4 @@
-import { AccountEntity } from "@app/account/domain"
-import { Entity, Column, PrimaryColumn, OneToOne, Index } from "typeorm"
+import { Entity, Column, PrimaryColumn, OneToOne, Index, ManyToOne, JoinColumn } from "typeorm"
 import { RestaurantEntity } from "./restaurant"
 
 @Entity({
@@ -9,14 +8,14 @@ export class RestaurantOpenTimeEntity {
   @PrimaryColumn("text")
   id!: string
 
-  @OneToOne(() => RestaurantEntity)
   @Column({
     type: "text",
     name: "restaurant_id"
   })
-  restaurantID!: string
+  restaurantID?: string
 
   @Column("numeric")
+  @Index()
   day!: number
 
   @Column({
@@ -24,14 +23,15 @@ export class RestaurantOpenTimeEntity {
     name: "open_time"
   })
   @Index()
-  openTime!: string
+  openTime!: number
 
   @Column({
     type: "bigint",
     name: "close_time"
   })
   @Index()
-  closeTime!: string
+  closeTime!: number
 
-
+  @ManyToOne(() => RestaurantEntity, (restaurant) => restaurant.schedules, { onDelete: "CASCADE" })
+  restaurant!: RestaurantEntity
 }

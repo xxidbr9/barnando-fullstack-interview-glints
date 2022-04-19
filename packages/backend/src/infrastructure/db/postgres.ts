@@ -15,7 +15,7 @@ const createPostgresDB = (opts: IDBConnectionOptions, entities: IEntitiesDB) => 
   return new DataSource({
     type: "postgres",
     synchronize: true,
-    logging: false,
+    logging: true,
     // Config
     host: opts.host,
     port: opts.port,

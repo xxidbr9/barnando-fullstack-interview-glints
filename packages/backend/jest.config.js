@@ -13,7 +13,8 @@ module.exports = {
     "^@config/(.*)": "<rootDir>/src/config/$1",
     "^@shared/(.*)": "<rootDir>/src/shared/$1",
     "^@types/(.*)": "<rootDir>/src/shared/types/$1",
-    "^@infrastructure/(.*)": "<rootDir>/src/infrastructure/$1"
+    "^@infrastructure/(.*)": "<rootDir>/src/infrastructure/$1",
+    "^@assets/(.*)": "<rootDir>/src/assets/$1"
   },
   coverageThreshold: {
     global: {

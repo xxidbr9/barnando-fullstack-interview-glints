@@ -8,7 +8,9 @@
     "strict": true,
     "sourceMap": true,
     "noImplicitAny": true,
-    "moduleResolution": "node",
+    "checkJs": false,
+    "allowJs": true,
+    "moduleResolution": "Node",
     "baseUrl": "./src/",
     "types": ["reflect-metadata", "jest", "node"],
     "esModuleInterop": true,
@@ -22,8 +24,11 @@
       "@config/*": ["config/*"],
       "@shared/*": ["shared/*"],
       "@types/*": ["shared/types/*"],
-      "@infrastructure/*": ["infrastructure/*"]
+      "@infrastructure/*": ["infrastructure/*"],
+      "@assets/*": ["assets/*"]
     }
   },
-  "exclude": ["node_modules", "__tests__"]
+  "exclude": ["node_modules", "__tests__"],
+
+  "include": ["./src", "./src/shared/types"]
 }

@@ -1,7 +1,7 @@
 import { controller, httpDelete, httpGet, httpPost, request, response } from 'inversify-express-utils';
 import { Request, Response } from 'express';
 import statusCode from 'http-status-codes';
-import { resp } from '@infrastructure/transport/http/processor'
+import { okResp } from '@infrastructure/transport/http/processor'
 import { KEYS } from '@core/keys';
 import { inject } from 'inversify';
 import { AccountApplicationService } from '@app/account/service/account.service';
@@ -17,22 +17,22 @@ export class FavoritesController {
 
   @httpPost("/create")
   async createNewFavorite(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
+    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
   }
 
   @httpDelete('/remove/:favorite_id')
   async removeFavorite(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
+    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
   }
 
   @httpPost('/add/:favorite_id')
   async addNewRestaurantToFavorite(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
+    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
   }
 
   @httpDelete('/remove/:favorite_id/:restaurant_id')
   async removeRestaurantToFavorite(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(resp({ ping: "PONG!!!" }, 'Success'));
+    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
   }
 
   @httpPost("/send-invitation")
@@ -59,7 +59,7 @@ export class FavoritesController {
 
     this.notifierService.sendInvitation(toEmail, fromUserFullName, linkToFavorite, favoriteName)
 
-    return res.status(statusCode.OK).json(resp({}, 'Success send an invitation to your friend email'));
+    return res.status(statusCode.OK).json(okResp({}, 'Success send an invitation to your friend email'));
   }
 
 }

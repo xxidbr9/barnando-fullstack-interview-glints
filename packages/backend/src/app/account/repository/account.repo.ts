@@ -10,7 +10,6 @@ export class AccountRepository {
     @inject(KEYS.PostgresDB) private readonly db: DataSource,
     @inject(KEYS.AccountDataMapper) private readonly accountDataMapper: IDataMapper<AccountEntity>
   ) {
-    // super(db.collection('users'), userDataMapper);
     this.repo = db.getRepository(AccountEntity)
   }
   private repo: Repository<AccountEntity>;

@@ -33,7 +33,7 @@ describe("Testing all account Domain Entity", () => {
     const accountSocial = new AccountSocialEntity()
     accountSocial.provider = "google"
     accountSocial.socialID = "1234"
-    accountSocial.userID = account.id
+    accountSocial.userID = account.id as string
 
     const repo = DB.dbConnect.getRepository(AccountSocialEntity)
 

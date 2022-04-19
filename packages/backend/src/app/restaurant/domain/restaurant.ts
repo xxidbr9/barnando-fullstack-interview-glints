@@ -1,5 +1,5 @@
-import { AccountEntity } from "@app/account/domain"
-import { Entity, Column, PrimaryColumn, Index } from "typeorm"
+import { Entity, Column, PrimaryColumn, Index, OneToMany, JoinColumn } from "typeorm"
+import { RestaurantOpenTimeEntity } from "./restaurantOpenTime"
 
 @Entity({
   name: "restaurant"
@@ -12,9 +12,12 @@ export class RestaurantEntity {
   @Index()
   name!: string
 
-  @Column("text")
-  picture!: string
+  @Column("text", { array: true })
+  pictures!: string[]
 
   @Column("text")
   address!: string
+
+  @OneToMany((type) => RestaurantOpenTimeEntity, (schedules) => schedules)
+  schedules!: RestaurantOpenTimeEntity[]
 }

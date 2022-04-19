@@ -1,3 +1,5 @@
 export * from './health.controller'
 export * from '@app/account/infra/http/account.controller'
+export * from '@app/account/infra/http/accountSocial.controller'
 export * from '@app/favorites/infra/http/favorite.controller'
+export * from '@app/restaurant/infra/http/restaurant.controller'

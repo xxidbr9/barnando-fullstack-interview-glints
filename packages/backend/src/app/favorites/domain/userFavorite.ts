@@ -11,7 +11,7 @@ export class FavoriteEntity {
   @Column("text")
   name!: string
 
-  @OneToOne(() => AccountEntity)
+  @OneToOne(() => AccountEntity, (user) => user.id, { onDelete: "CASCADE" })
   @Column({
     type: "text",
     name: "user_id"

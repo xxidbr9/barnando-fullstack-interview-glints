@@ -20,7 +20,7 @@ describe("Test all restaurant domain", () => {
     restaurantEntity.address = "Singapore"
     restaurantEntity.id = "restaurant_id_123"
     restaurantEntity.name = "Es Teh"
-    restaurantEntity.picture = "https://source.unsplash.com/random/restaurant"
+    restaurantEntity.pictures = ["https://source.unsplash.com/random/restaurant"]
 
     restaurant = await DB
       .dbConnect
@@ -38,10 +38,8 @@ describe("Test all restaurant domain", () => {
     daysSchedule.map((s) => {
       restaurantOpenTime.openTime = s
         .openTime
-        .toString()
       restaurantOpenTime.closeTime = s
         .closeTime
-        .toString()
       restaurantOpenTime.day = s.day
       restaurantOpenTime.id = "id_123"
       restaurantOpenTime.restaurantID = restaurant.id

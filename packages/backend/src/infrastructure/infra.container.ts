@@ -10,6 +10,12 @@ import { RestaurantEntity, RestaurantOpenTimeEntity } from "@app/restaurant/doma
 import { IDataMapper } from "@core/domain/IDataMapper";
 import { AccountDataMapper } from "@app/account/mappers/account.mapper";
 import { AccountRepository } from "@app/account/repository/account.repo";
+import { AccountSocialRepository } from "@app/account/repository/accountSocial.repo";
+import { PushNotificationEntity } from "@app/notifier/domain/notifierPushNotificationDomain";
+import { AccountSocialDataMapper } from "@app/account/mappers/accountSocial.mapper";
+import { RestaurantRepository } from "@app/restaurant/repository/restaurant.repo";
+import { RestaurantDataMapper } from "@app/restaurant/mappers/restaurant.mapper";
+import { RestaurantOpenTimeDataMapper } from "@app/restaurant/mappers/restaurantOpenTime.mapper";
 
 export const infrastructureContainerModule = new AsyncContainerModule(async (bind: interfaces.Bind) => {
 
@@ -20,7 +26,8 @@ export const infrastructureContainerModule = new AsyncContainerModule(async (bin
     FavoriteEntity,
     FavoriteRestaurantEntity,
     RestaurantEntity,
-    RestaurantOpenTimeEntity
+    RestaurantOpenTimeEntity,
+    PushNotificationEntity
   ]
 
   const DB: DataSource = createPostgresDB({
@@ -36,10 +43,17 @@ export const infrastructureContainerModule = new AsyncContainerModule(async (bin
 
   // binding DATA MAPPER
   bind<IDataMapper<AccountEntity>>(KEYS.AccountDataMapper).to(AccountDataMapper);
+  bind<IDataMapper<AccountSocialEntity>>(KEYS.AccountSocialDataMapper).to(AccountSocialDataMapper);
+  bind<IDataMapper<RestaurantEntity>>(KEYS.RestaurantDataMapper).to(RestaurantDataMapper)
+  bind<IDataMapper<RestaurantOpenTimeEntity>>(KEYS.RestaurantOpenTimeDataMapper).to(RestaurantOpenTimeDataMapper)
 
   // Bind Repo
   bind<AccountRepository>(KEYS.AccountRepository).to(AccountRepository);
+  bind<AccountSocialRepository>(KEYS.AccountSocialRepository).to(AccountSocialRepository);
+  bind<RestaurantRepository>(KEYS.RestaurantRepository).to(RestaurantRepository)
 
   // INITIALIZE DATABASE
   DB.initialize()
+
+  // migrate here
 })

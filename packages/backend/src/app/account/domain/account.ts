@@ -25,6 +25,6 @@ export class AccountEntity {
   })
   pictureProfileUrl?: string
 
-  @Column("text")
-  password!: string
+  @Column({ type: "text", nullable: true })
+  password?: string
 }

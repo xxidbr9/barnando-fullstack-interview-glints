@@ -1,5 +1,5 @@
 import { RestaurantEntity } from "@app/restaurant/domain/restaurant"
-import { Entity, Column, OneToOne, Index, PrimaryColumn } from "typeorm"
+import { Entity, Column, OneToOne, Index, PrimaryColumn, ManyToOne } from "typeorm"
 import { FavoriteEntity } from "./userFavorite"
 
 @Entity({
@@ -9,7 +9,7 @@ export class FavoriteRestaurantEntity {
   @PrimaryColumn("text")
   id!: string
 
-  @OneToOne(() => FavoriteEntity)
+  @ManyToOne(() => FavoriteEntity, (favorite) => favorite.id, { onDelete: "CASCADE" })
   @Column({
     type: "text",
     name: "favorite_id"
@@ -17,11 +17,14 @@ export class FavoriteRestaurantEntity {
   @Index()
   favoriteID!: string
 
-  @OneToOne(() => RestaurantEntity)
+  @ManyToOne(() => RestaurantEntity, (restaurant) => restaurant.id, { onDelete: "CASCADE" })
   @Column({
     type: "text",
     name: "restaurant_id"
   })
   @Index()
   restaurantID!: string
+
+  @Column({ type: "date", name: "create_at" })
+  createAt!: Date | number
 }

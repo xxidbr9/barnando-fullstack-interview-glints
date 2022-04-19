@@ -1,6 +1,8 @@
 import { AccountEntity } from "@app/account/domain";
-import { RestaurantEntity } from "@app/restaurant/domain";
+import { RestaurantEntity, RestaurantOpenTimeEntity } from "@app/restaurant/domain";
 import { DBTestHelper } from "@shared/helpers/testHelper";
+import parseDay from "@shared/helpers/transformRestaurant";
+import moment from "moment";
 import { FavoriteEntity, FavoriteRestaurantEntity } from "../domain";
 
 let DB: DBTestHelper
@@ -8,14 +10,15 @@ let restaurant: RestaurantEntity
 let user: AccountEntity
 
 beforeAll(async () => {
-  DB = await new DBTestHelper([FavoriteEntity, FavoriteRestaurantEntity, RestaurantEntity, AccountEntity]).setupTestDB()
+  DB = await new DBTestHelper([FavoriteEntity, FavoriteRestaurantEntity, RestaurantOpenTimeEntity, RestaurantEntity, AccountEntity]).setupTestDB()
 
   // create the restaurant first
   const restaurantEntity = new RestaurantEntity()
   restaurantEntity.id = "ID123"
   restaurantEntity.address = "Solo"
   restaurantEntity.name = "Sushi Wasabi"
-  restaurantEntity.picture = "https://source.unsplash.com/random/sushi"
+  restaurantEntity.pictures = ["https://source.unsplash.com/random/sushi"]
+
   restaurant = await DB.dbConnect.manager.save(restaurantEntity)
 
 
@@ -31,7 +34,7 @@ beforeAll(async () => {
 })
 
 afterAll(() => {
-  DB.teardownTestDB()
+  // DB.teardownTestDB()
 })
 
 describe("Test all favorite entity", () => {
@@ -56,6 +59,7 @@ describe("Test all favorite entity", () => {
     favRestaurant.favoriteID = favorite.id
     favRestaurant.restaurantID = restaurant.id
     favRestaurant.id = "fav_restaurant_123"
+    favRestaurant.createAt = Date.now()
 
     const repo = DB.dbConnect.getRepository(FavoriteRestaurantEntity)
 

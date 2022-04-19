@@ -1,7 +1,7 @@
 import { controller, httpGet, httpPost, request, response } from 'inversify-express-utils';
 import { Request, Response } from 'express';
 import statusCode from 'http-status-codes';
-import { resp } from '@infrastructure/transport/http/processor'
+import { okResp } from '@infrastructure/transport/http/processor'
 import { KEYS } from '@core/keys';
 import { inject } from 'inversify';
 import { AccountApplicationService } from '@app/account/service/account.service';
@@ -21,7 +21,7 @@ export class AccountController {
   @httpGet('/profile', jwtParserMiddleware)
   async accountProfile(@request() req: Request, @response() res: Response) {
     const profile = await this.service.profile(req.body.jwt_payload.user_id)
-    return res.status(statusCode.OK).json(resp({ profile }, 'success get user profile'));
+    return res.status(statusCode.OK).json(okResp({ profile }, 'success get user profile'));
   }
 }
 
@@ -57,7 +57,7 @@ export class AuthController {
     }
 
     await this.service.register(email, password, fullName)
-    return res.status(statusCode.OK).json(resp({}, 'success register'));
+    return res.status(statusCode.OK).json(okResp({}, 'success register'));
   }
 
   @httpPost('/login')
@@ -72,11 +72,11 @@ export class AuthController {
     if (!password || password === "") {
       throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "password are required")
     }
-    
+
     try {
       const userID = await this.service.login(email, password)
       const jwtData = jwt.sign({ user_id: userID }, config.JWT_SALT)
-      return res.status(statusCode.OK).json(resp({ access_token: jwtData }, 'success, but normally i do refresh_token, and a short expire time for secure the access'));
+      return res.status(statusCode.OK).json(okResp({ access_token: jwtData }, 'success, but normally i do refresh_token, and a short expire time for secure the access'));
     } catch (err) {
       const error = err as { message: string }
       throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, error.message)

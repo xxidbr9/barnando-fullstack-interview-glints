@@ -4,12 +4,15 @@ export const KEYS = {
 
   // Repositories
   AccountRepository: Symbol('AccountRepository'),
+  AccountSocialRepository: Symbol('AccountSocialRepository'),
   RestaurantRepository: Symbol('RestaurantRepository'),
   FavoriteRepository: Symbol('FavoriteRepository'),
 
   // Data Mappers
   AccountDataMapper: Symbol('AccountDataMapper'),
+  AccountSocialDataMapper: Symbol('AccountSocialDataMapper'),
   RestaurantDataMapper: Symbol('RestaurantDataMapper'),
+  RestaurantOpenTimeDataMapper: Symbol('RestaurantOpenTimeDataMapper'),
   FavoriteDataMapper: Symbol('FavoriteDataMapper'),
 
 

@@ -6,15 +6,15 @@ import { AccountEntity } from "./account"
 })
 export class AccountSocialEntity {
   @PrimaryColumn({
-    name:"social_id",
-    type:"text"
+    name: "social_id",
+    type: "text"
   })
   socialID!: string
 
-  @OneToOne(() => AccountEntity)
+  @OneToOne(() => AccountEntity, (account) => account.id, { onDelete: "CASCADE" })
   @Column({
-    name:"user_id",
-    type:"text"
+    name: "user_id",
+    type: "text"
   })
   userID!: string
 
