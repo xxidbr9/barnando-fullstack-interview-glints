@@ -18,7 +18,15 @@ export class RestaurantDto {
     ))
 
   }
+}
 
-
+export class RestaurantSearchDto {
+  constructor(
+    public id: string,
+    public name: string,
+    public pictures: string[],
+    public address: string,
+  ) {
+  }
 }
 

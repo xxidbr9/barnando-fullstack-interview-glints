@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 import moduleAlias from "module-alias";
 
+import path from 'path';
 
 
 (async () => {
@@ -16,7 +17,8 @@ import moduleAlias from "module-alias";
     "@transport": `${__dirname}/transport`
   });
 
-  dotenv.config();
+  dotenv.config({ path: path.join(__dirname, `./.env.${process.env.NODE_ENV}`) });
+  console.log(`You are running in : ${process.env.NODE_ENV} MODE!!`)
   // await initialize();
   await import("./entrypoint").then(mod => mod.initialize());
 })();

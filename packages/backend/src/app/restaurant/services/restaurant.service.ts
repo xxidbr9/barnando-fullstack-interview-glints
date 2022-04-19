@@ -7,7 +7,7 @@ import { RestaurantRepository } from "../repository/restaurant.repo";
 import statusCode from 'http-status-codes'
 import { RestaurantEntity, RestaurantOpenTimeEntity } from "../domain";
 import parseDay from "@shared/helpers/transformRestaurant";
-import { RestaurantDto } from "../dtos/restaurant.dto";
+import { RestaurantDto, RestaurantSearchDto } from "../dtos/restaurant.dto";
 
 
 /* 
@@ -34,18 +34,18 @@ export class RestaurantApplicationService {
       closeTime = moment(close, "hh:mm A").unix()
     }
 
-    if (limit <= 0) {
+    if (limit <= 0 || !(limit)) {
       // limit = Number.MAX_VALUE
       limit = 40
     }
 
-    if (page <= 0) {
+    if (page <= 0 || !(limit)) {
       page = 1
     }
 
     const result = await this.restaurantRepository.search(q, days, openTime, closeTime, limit, page)
 
-    const restaurants = result.restaurants.map((restaurant) => new RestaurantDto(restaurant.id, restaurant.name, restaurant.pictures, restaurant.address, restaurant.schedules))
+    const restaurants = result.restaurants.map((restaurant) => new RestaurantSearchDto(restaurant.id, restaurant.name, restaurant.pictures, restaurant.address))
 
     return {
       ...result,

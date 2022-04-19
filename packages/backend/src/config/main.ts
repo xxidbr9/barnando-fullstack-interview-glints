@@ -9,5 +9,8 @@ export default {
   POSTGRES_DB_PORT: process.env.POSTGRES_DB_PORT || 5432,
 
   // JWT
-  JWT_SALT: process.env.JWT_SALT || "salt_and_paper"
+  JWT_SALT: process.env.JWT_SALT || "salt_and_paper",
+
+  // misc
+  IS_PRODUCTION_MODE: process.env.NODE_ENV === "prov"
 };

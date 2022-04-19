@@ -60,6 +60,7 @@ describe("Test all favorite entity", () => {
     favRestaurant.restaurantID = restaurant.id
     favRestaurant.id = "fav_restaurant_123"
     favRestaurant.createAt = Date.now()
+    favRestaurant.adderID = user.id as string
 
     const repo = DB.dbConnect.getRepository(FavoriteRestaurantEntity)
 

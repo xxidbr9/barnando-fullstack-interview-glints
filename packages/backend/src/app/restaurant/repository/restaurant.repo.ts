@@ -9,7 +9,9 @@ import { RestaurantEntity, RestaurantOpenTimeEntity } from "../domain";
 import { RestaurantDataMapper } from "../mappers/restaurant.mapper";
 import { RestaurantOpenTimeDataMapper } from "../mappers/restaurantOpenTime.mapper";
 import { randAddress } from '@ngneat/falso';
+import { faker } from '@faker-js/faker'
 import axios from 'axios';
+import sleep from '@shared/helpers/sleep';
 
 @injectable()
 export class RestaurantRepository {
@@ -31,25 +33,30 @@ export class RestaurantRepository {
       const savedRestaurant = await this.restaurantRepo.save(newRestaurant)
 
       let savedRestaurantOpenTimes: RestaurantOpenTimeEntity[] = []
-      openTimes.forEach(async (openTime) => {
-        const newRestaurantOpenTime = this.restaurantOpenTimeDataMapper.toDalEntity({
-          ...openTime,
-          restaurantID: newRestaurant.id
-        })
-        const savedRestaurantOpenTime = await this.restaurantOpenTimeRepo.save(newRestaurantOpenTime)
-        savedRestaurantOpenTimes.push(savedRestaurantOpenTime)
-      })
+      if (!!savedRestaurant) {
 
-      return {
-        id: savedRestaurant.id,
-        address: savedRestaurant.address,
-        name: savedRestaurant.name,
-        dayOpens: savedRestaurantOpenTimes.map((time) => ({
-          closeTime: time.closeTime,
-          day: time.day,
-          openTime: time.openTime
-        })),
-        pictures: savedRestaurant.pictures
+        openTimes.forEach(async (openTime) => {
+          const newRestaurantOpenTime = this.restaurantOpenTimeDataMapper.toDalEntity({
+            ...openTime,
+            restaurantID: savedRestaurant.id
+          })
+          const savedRestaurantOpenTime = await this.restaurantOpenTimeRepo.save(newRestaurantOpenTime)
+          savedRestaurantOpenTimes.push(savedRestaurantOpenTime)
+        })
+
+        return {
+          id: savedRestaurant.id,
+          address: savedRestaurant.address,
+          name: savedRestaurant.name,
+          dayOpens: savedRestaurantOpenTimes.map((time) => ({
+            closeTime: time.closeTime,
+            day: time.day,
+            openTime: time.openTime
+          })),
+          pictures: savedRestaurant.pictures
+        }
+      } else {
+        throw new Error("error race condition")
       }
 
     } catch (err) {
@@ -67,7 +74,7 @@ export class RestaurantRepository {
   **/
   async search(q: string, days: NumberOfDayWeeks[], openTime: number, closeTime: number, limit: number, page: number): Promise<ISearchResponse<"restaurants", RestaurantEntity[]>> {
     let query = this.restaurantRepo.createQueryBuilder("restaurant")
-      .leftJoinAndMapMany("restaurant.schedules", RestaurantOpenTimeEntity, "schedules", "schedules.restaurant_id = restaurant.id")
+      .leftJoinAndSelect(RestaurantOpenTimeEntity, "schedules", "schedules.restaurant_id = restaurant.id")
 
     if (!!q) {
       query = query.where("restaurant.name ILIKE :q", { q: `%${q}%` })
@@ -89,14 +96,16 @@ export class RestaurantRepository {
     const total = await query.getCount()
 
     if (limit > 0) {
-      query = query.limit(limit)
+      console.log(limit)
+      query = query.take(limit)
     }
 
     if (page > 0) {
-      query = query.offset(page)
+      query = query.skip(page)
     }
 
     const results = await query.getMany()
+    
     return {
       total,
       is_have_next: results.length >= limit,
@@ -117,7 +126,7 @@ export class RestaurantRepository {
   initialSeed() {
     const restaurant = new RestaurantEntity()
     restaurant.name = "Rumah makan padang minang menanti"
-    restaurant.pictures = ["https://source.unsplash.com/random/1"]
+    restaurant.pictures = ["https://source.unsplash.com/random/?food"]
     restaurant.address = "Indonesia"
     restaurant.id = "restaurant_123"
 
@@ -136,8 +145,12 @@ export class RestaurantRepository {
     this.save(restaurant, restaurantOpenTimes)
   }
 
+  /* 
+  ? TODO ?
+  [ ] change env between prod and dev
+  */
   async bulkInsert() {
-    var data = fs.readFileSync(`${process.env.PWD}/src/assets/one.csv`).toLocaleString();
+    var data = fs.readFileSync(`${process.env.PWD}/src/assets/hours.csv`).toLocaleString();
     var rows = data.split("\n");
     type initialDataType = {
       name: string
@@ -154,8 +167,13 @@ export class RestaurantRepository {
       restaurantList.push(newData)
     })
 
-    const getRandomImage = async () => axios.get(`https://source.unsplash.com/1600x900/?restaurant`)
-      .then((response) => response.request.res.responseUrl)
+    const getRandomImage = async (url: string, index: number) => {
+      if (index % 5 === 0) {
+        await sleep(2000)
+      }
+      return await axios.get(url)
+        .then((response) => response.request.res.responseUrl)
+    }
 
     restaurantList.forEach(async (restaurant, index) => {
       const newRestaurant = new RestaurantEntity()
@@ -163,8 +181,8 @@ export class RestaurantRepository {
       const { city, street, country, county } = randAddress()
       const address = [street, county, city, country].join(", ")
       newRestaurant.address = address
-      newRestaurant.pictures = await Promise.all(Array.from({ length: 5 }).map((_, i) => getRandomImage()))
-
+      newRestaurant.pictures = Array.from({ length: 5 }).map((_, i) => !(i % 2) ? faker.image.food() : "https://source.unsplash.com/random/?food")
+      // newRestaurant.pictures = await Promise.all(Array.from({ length: 5 }).map((_, i) => getRandomImage(faker.image.food(), index)))
       const restaurantOpenTimes: RestaurantOpenTimeEntity[] = []
       const days = parseDay(restaurant.time)
 
@@ -180,6 +198,7 @@ export class RestaurantRepository {
     })
   }
 
+  // the reason i do this, because i don't wont to migrate when app is initialize / place it in the server, so i do hits manually for minimize startup time
   async migrate() {
     const seedExist = await this.info("restaurant_123")
     if (!!seedExist) {

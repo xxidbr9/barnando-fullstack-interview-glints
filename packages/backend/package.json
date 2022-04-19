@@ -7,9 +7,10 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "build": "tsc --allowJs  --skipLibCheck --noEmit -p ./",
-        "start": "node dist/index.js",
-        "dev": "nodemon --watch './**/*.ts' -r module-alias/register --exec 'ts-node' ./src/index.ts",
+        "prebuild": "rimraf dist",
+        "build": "yarn prebuild && tsc",
+        "start": "cross-env NODE_ENV=prod node dist/index.js",
+        "dev": "cross-env NODE_ENV=dev nodemon --watch './**/*.ts' -r module-alias/register --exec 'ts-node' ./src/index.ts",
         "test": "jest --verbose",
         "test:coverage": "jest --no-cache --coverage"
     },
@@ -38,6 +39,7 @@
         "uuid": "^8.3.2"
     },
     "devDependencies": {
+        "@faker-js/faker": "^6.1.2",
         "@types/bcrypt": "^5.0.0",
         "@types/better-sqlite3": "^7.5.0",
         "@types/body-parser": "^1.19.0",
@@ -54,13 +56,15 @@
         "@typescript-eslint/parser": "^3.5.0",
         "bcrypt": "^5.0.1",
         "better-sqlite3": "^7.5.1",
+        "cross-env": "^7.0.3",
         "eslint": "^7.4.0",
         "eslint-plugin-import": "^2.22.0",
         "eslint-plugin-node": "^11.1.0",
         "jest": "^26.6.3",
         "prettier": "^2.0.5",
+        "rimraf": "^3.0.2",
         "ts-jest": "^26.4.4",
         "ts-node": "^10.7.0",
-        "typescript": "^3.9.6"
+        "typescript": "^4.6.3"
     }
 }
