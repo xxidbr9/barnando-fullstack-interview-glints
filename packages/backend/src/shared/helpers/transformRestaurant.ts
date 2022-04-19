@@ -22,7 +22,7 @@ export const calculateDayRange = (listDay: string[]) => {
   return range(numberDayList[0] as number, numberDayList[1] as number);
 };
 
-export const toUnixTime = (time: string | Date) => momentTZ(time, "h:mm A").tz("Asia/Jakarta").unix();
+export const toUnixTime = (time: string | Date) => momentTZ(time, "h:mm A").tz("Asia/Jakarta", true).unix();
 
 export function checkIsNumeric(str: string): boolean {
   return !isNaN(parseFloat(str[0]));

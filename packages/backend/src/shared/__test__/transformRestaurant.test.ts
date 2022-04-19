@@ -2,7 +2,7 @@ import parser, { checkIsNumeric, findDay, range } from "@shared/helpers/transfor
 import moment from "moment";
 import momentTZ from "moment-timezone";
 
-const parseTo12Hour = (time: number) => momentTZ.unix(time).tz("Asia/Jakarta").format("hh:mm A")
+const parseTo12Hour = (time: number) => momentTZ.unix(time).tz("Asia/Jakarta", true).format("hh:mm A")
 
 const TEST_CASE_1 = "Mon-Sun 11 am - 10:30 pm";
 const EXPECTED_TEST_1 = [
