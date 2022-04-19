@@ -1,4 +1,4 @@
-import { controller, httpDelete, httpGet, httpPost, request, response } from 'inversify-express-utils';
+import { controller, httpDelete, httpGet, httpPost, httpPut, request, response } from 'inversify-express-utils';
 import { Request, Response } from 'express';
 import statusCode from 'http-status-codes';
 import { okResp } from '@infrastructure/transport/http/processor'
@@ -7,31 +7,43 @@ import { inject } from 'inversify';
 import { AccountApplicationService } from '@app/account/service/account.service';
 import { NotifierApplicationService } from '@app/notifier/service/notifier.service';
 import { ApplicationError } from '@core/domain/AppError';
+import { RestaurantApplicationService } from '@app/restaurant/services/restaurant.service';
 
 @controller("/api/v1/favorites")
 export class FavoritesController {
   constructor(
     @inject(KEYS.AccountApplication) private readonly accountService: AccountApplicationService,
+    @inject(KEYS.RestaurantApplication) private readonly restaurantService: RestaurantApplicationService,
     @inject(KEYS.NotifierApplication) private readonly notifierService: NotifierApplicationService
   ) { }
+
+  @httpGet("/")
+  async getAllFavoritesCollection(@request() req: Request, @response() res: Response) {
+    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
+  }
+
+  @httpGet("/:favorite_id")
+  async getAllFavoriteDetail(@request() req: Request, @response() res: Response) {
+    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
+  }
 
   @httpPost("/create")
   async createNewFavorite(@request() req: Request, @response() res: Response) {
     return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
   }
 
-  @httpDelete('/remove/:favorite_id')
+  @httpDelete('/:favorite_id')
   async removeFavorite(@request() req: Request, @response() res: Response) {
     return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
   }
 
-  @httpPost('/add/:favorite_id')
+  @httpPut('/attach/:favorite_id')
   async addNewRestaurantToFavorite(@request() req: Request, @response() res: Response) {
     return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
   }
 
-  @httpDelete('/remove/:favorite_id/:restaurant_id')
-  async removeRestaurantToFavorite(@request() req: Request, @response() res: Response) {
+  @httpPut('/detach/:favorite_id')
+  async removeRestaurantFromFavorite(@request() req: Request, @response() res: Response) {
     return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
   }
 
