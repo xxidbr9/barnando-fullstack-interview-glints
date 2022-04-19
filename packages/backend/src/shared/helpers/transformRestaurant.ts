@@ -1,6 +1,8 @@
 import { DAYS } from "@shared/constants/days";
 import { DayOfTheWeek, DayToDay } from "@shared/types/day";
-import moment from "moment"
+import momentTZ from "moment-timezone";
+
+momentTZ.locale("Asia/Jakarta")
 
 export const range = (start: number, stop: number) => {
   if (start < stop) {
@@ -22,9 +24,9 @@ export const calculateDayRange = (listDay: string[]) => {
   return range(numberDayList[0] as number, numberDayList[1] as number);
 };
 
-export const toUnixTime = (time: string | Date) => moment(time, "h:mm A").utc().unix();
+export const toUnixTime = (time: string | Date) => momentTZ(time, "h:mm A").tz("Asia/Jakarta").unix();
 
-export function checkIsNumeric(str: string):boolean {
+export function checkIsNumeric(str: string): boolean {
   return !isNaN(parseFloat(str[0]));
 }
 
