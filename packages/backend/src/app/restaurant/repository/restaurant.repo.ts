@@ -81,7 +81,6 @@ export class RestaurantRepository {
     }
 
     if (days.length > 0) {
-      console.log(days)
       query = query.andWhere("schedules.day IN (:...days)", { days })
     }
 
@@ -96,7 +95,6 @@ export class RestaurantRepository {
     const total = await query.getCount()
 
     if (limit > 0) {
-      console.log(limit)
       query = query.take(limit)
     }
 

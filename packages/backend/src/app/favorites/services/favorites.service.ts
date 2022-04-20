@@ -2,7 +2,7 @@ import { AccountRepository } from "@app/account/repository/account.repo";
 import { KEYS } from "@core/keys";
 import { inject, injectable } from "inversify";
 import { FavoriteEntity, FavoriteRestaurantEntity } from "../domain";
-import { FavoriteBaseDto, FavoriteInfoDto } from "../dtos/favorite.dto";
+import { FavoriteBaseDto, FavoriteDto, FavoriteInfoDto } from "../dtos/favorite.dto";
 import { FavoriteRestaurantDto, InfoFavoriteRestaurantDto } from "../dtos/favoriteRestaurant.dto";
 import { FavoriteRepository } from "../repository/favorite.repo";
 
@@ -20,7 +20,7 @@ export class FavoriteApplicationService {
     if (await this.isUserNotExist(userID)) throw new Error("user not found")
     const results = await this.favoriteRepository.searchFavorite(userID)
     const total = results.total
-    const favorites = results.favorites.map((favorite) => new FavoriteBaseDto(favorite.id as string, favorite.name, favorite.userID, favorite.parentID as string))
+    const favorites = results.favorites.map((favorite) => new FavoriteDto(favorite?.id as string, favorite?.name, favorite?.userID, favorite?.parentID as string, favorite.createdAt as number, favorite?.updatedAt as number, favorite?.favoriteRestaurants as unknown as FavoriteRestaurantEntity))
     return {
       total,
       favorites

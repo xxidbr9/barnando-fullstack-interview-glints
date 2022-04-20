@@ -68,14 +68,13 @@ export class FavoriteRepository {
   // showing all existed favorite collection
   async searchFavorite(userID: string): Promise<ISearchResponse<"favorites", FavoriteEntity[]>> {
     let query = this.favoriteRepo.createQueryBuilder("favorite")
-      .leftJoinAndSelect(FavoriteRestaurantEntity, "restaurantFavorite", "restaurantFavorite.favorite_id = favorite.id")
-      .leftJoinAndMapOne("restaurantFavorite.restaurant", RestaurantEntity, "favoriteRestaurant", "favoriteRestaurant.id = restaurantFavorite.restaurant_id")
+      .leftJoinAndMapOne("favorite.favoriteRestaurants",FavoriteRestaurantEntity, "favoriteRestaurant", "favoriteRestaurant.favorite_id = favorite.id")
+      .leftJoinAndMapOne("favoriteRestaurant.restaurant", RestaurantEntity, "restaurant", "restaurant.id = favoriteRestaurant.restaurant_id")
       .where("favorite.user_id = :userID", { userID })
       .orderBy("favorite.updated_at", "DESC")
 
     const total = await query.getCount()
     const result = await query.getMany()
-
     return {
       total,
       favorites: result,
@@ -86,7 +85,6 @@ export class FavoriteRepository {
   async addRestaurantToFavorite(favoriteRestaurant: FavoriteRestaurantEntity, userID: string) {
     try {
       const finnedRestaurant = await this.findRestaurantInCollectionByID(favoriteRestaurant.favoriteID, favoriteRestaurant.restaurantID, userID)
-      console.log("add", finnedRestaurant)
       if (finnedRestaurant !== null) throw new Error("the same restaurant is exist")
 
       const newFavoriteRestaurant = this.favoriteRestaurantDataMapper.toDalEntity(favoriteRestaurant)
