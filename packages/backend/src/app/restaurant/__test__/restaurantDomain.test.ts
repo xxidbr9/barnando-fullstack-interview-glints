@@ -1,3 +1,5 @@
+import { AccountEntity } from "@app/account/domain";
+import { FavoriteEntity, FavoriteRestaurantEntity } from "@app/favorites/domain";
 import { DBTestHelper } from "@shared/helpers/testHelper";
 import parseDay from "@shared/helpers/transformRestaurant";
 import { RestaurantEntity, RestaurantOpenTimeEntity } from "../domain";
@@ -5,12 +7,12 @@ import { RestaurantEntity, RestaurantOpenTimeEntity } from "../domain";
 let DB: DBTestHelper
 
 beforeAll(async () => {
-  DB = await new DBTestHelper([RestaurantEntity, RestaurantOpenTimeEntity]).setupTestDB()
+  DB = await new DBTestHelper([AccountEntity, FavoriteEntity, FavoriteRestaurantEntity, RestaurantEntity, RestaurantOpenTimeEntity]).setupTestDB()
 })
 
-afterAll(() => {
-  DB.teardownTestDB()
-})
+// afterAll(() => {
+//   DB.teardownTestDB()
+// })
 
 describe("Test all restaurant domain", () => {
   let restaurant: RestaurantEntity

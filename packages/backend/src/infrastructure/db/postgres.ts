@@ -1,5 +1,5 @@
 import "reflect-metadata"
-import { DataSource,  } from "typeorm"
+import { DataSource, } from "typeorm"
 import { IEntitiesDB } from "@shared/types/entitiesDB"
 
 
@@ -15,7 +15,7 @@ const createPostgresDB = (opts: IDBConnectionOptions, entities: IEntitiesDB) => 
   return new DataSource({
     type: "postgres",
     synchronize: true,
-    logging: true,
+    logging: process.env.NODE_ENV === "dev",
     // Config
     host: opts.host,
     port: opts.port,

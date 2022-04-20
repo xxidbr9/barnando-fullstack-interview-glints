@@ -13,7 +13,6 @@ export class CommonController {
 
   @httpGet('/hello', jwtParserMiddleware)
   async testJwt(@request() req: Request, @response() res: Response) {
-    console.log(req.body)
     return res.status(statusCode.OK).json(okResp({ ping: "PONG!!! from jwt", jwt_payload: req.body.jwt_payload }, 'Success'));
   }
 }

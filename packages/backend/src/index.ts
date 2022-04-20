@@ -18,9 +18,6 @@ import path from 'path';
   });
 
   dotenv.config({ path: path.join(__dirname, "..", `.env.${process.env.NODE_ENV}`) });
-  console.log(`You are running in : ${process.env.NODE_ENV} MODE!!`)
-  console.log(process.env.PWD)
-  console.log(path.join(__dirname, ".."))
   // await initialize();
   await import("./entrypoint").then(mod => mod.initialize());
 })();
