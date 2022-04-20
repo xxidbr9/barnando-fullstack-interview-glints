@@ -1,2 +1,2 @@
-export * from './userFavorite'
-export * from './userFavoriteRestaurant'
+export * from './favorite'
+export * from './favoriteRestaurant'

@@ -20,7 +20,8 @@ export class RestaurantDataMapper implements IDataMapper<RestaurantEntity> {
       address: entity.address,
       name: entity.name,
       pictures: entity.pictures,
-      schedules: entity.schedules
+      schedules: entity.schedules,
+      favoriteRestaurant: entity.favoriteRestaurant
     }
   }
 

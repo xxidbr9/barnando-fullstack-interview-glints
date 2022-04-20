@@ -1,3 +1,4 @@
+import { FavoriteRestaurantEntity } from "@app/favorites/domain"
 import { Entity, Column, PrimaryColumn, Index, OneToMany, JoinColumn } from "typeorm"
 import { RestaurantOpenTimeEntity } from "./restaurantOpenTime"
 
@@ -20,4 +21,7 @@ export class RestaurantEntity {
 
   @OneToMany((type) => RestaurantOpenTimeEntity, (schedules) => schedules)
   schedules!: RestaurantOpenTimeEntity[]
+
+  @OneToMany((type) => FavoriteRestaurantEntity, (favoriteRestaurant) => favoriteRestaurant)
+  favoriteRestaurant!: FavoriteRestaurantEntity[]
 }

@@ -14,6 +14,8 @@ export const KEYS = {
   RestaurantDataMapper: Symbol('RestaurantDataMapper'),
   RestaurantOpenTimeDataMapper: Symbol('RestaurantOpenTimeDataMapper'),
   FavoriteDataMapper: Symbol('FavoriteDataMapper'),
+  FavoriteRestaurantDataMapper: Symbol('FavoriteRestaurantDataMapper'),
+
 
 
   // Application Services

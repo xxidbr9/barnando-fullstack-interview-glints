@@ -16,6 +16,9 @@ import { AccountSocialDataMapper } from "@app/account/mappers/accountSocial.mapp
 import { RestaurantRepository } from "@app/restaurant/repository/restaurant.repo";
 import { RestaurantDataMapper } from "@app/restaurant/mappers/restaurant.mapper";
 import { RestaurantOpenTimeDataMapper } from "@app/restaurant/mappers/restaurantOpenTime.mapper";
+import { FavoriteDataMapper } from "@app/favorites/mappers/favorite.mapper";
+import { FavoriteRestaurantDataMapper } from "@app/favorites/mappers/favoriteRestaurant.mapper";
+import { FavoriteRepository } from "@app/favorites/repository/favorite.repo";
 
 export const infrastructureContainerModule = new AsyncContainerModule(async (bind: interfaces.Bind) => {
 
@@ -23,10 +26,10 @@ export const infrastructureContainerModule = new AsyncContainerModule(async (bin
   const entities: IEntitiesDB = [
     AccountEntity,
     AccountSocialEntity,
-    FavoriteEntity,
-    FavoriteRestaurantEntity,
     RestaurantEntity,
     RestaurantOpenTimeEntity,
+    FavoriteEntity,
+    FavoriteRestaurantEntity,
     PushNotificationEntity
   ]
 
@@ -44,16 +47,19 @@ export const infrastructureContainerModule = new AsyncContainerModule(async (bin
   // binding DATA MAPPER
   bind<IDataMapper<AccountEntity>>(KEYS.AccountDataMapper).to(AccountDataMapper);
   bind<IDataMapper<AccountSocialEntity>>(KEYS.AccountSocialDataMapper).to(AccountSocialDataMapper);
+
   bind<IDataMapper<RestaurantEntity>>(KEYS.RestaurantDataMapper).to(RestaurantDataMapper)
   bind<IDataMapper<RestaurantOpenTimeEntity>>(KEYS.RestaurantOpenTimeDataMapper).to(RestaurantOpenTimeDataMapper)
+
+  bind<IDataMapper<FavoriteEntity>>(KEYS.FavoriteDataMapper).to(FavoriteDataMapper)
+  bind<IDataMapper<FavoriteRestaurantEntity>>(KEYS.FavoriteRestaurantDataMapper).to(FavoriteRestaurantDataMapper)
 
   // Bind Repo
   bind<AccountRepository>(KEYS.AccountRepository).to(AccountRepository);
   bind<AccountSocialRepository>(KEYS.AccountSocialRepository).to(AccountSocialRepository);
   bind<RestaurantRepository>(KEYS.RestaurantRepository).to(RestaurantRepository)
+  bind<FavoriteRepository>(KEYS.FavoriteRepository).to(FavoriteRepository)
 
   // INITIALIZE DATABASE
   DB.initialize()
-
-  // migrate here
 })

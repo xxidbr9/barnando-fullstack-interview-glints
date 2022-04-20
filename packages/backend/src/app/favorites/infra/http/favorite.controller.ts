@@ -8,45 +8,120 @@ import { AccountApplicationService } from '@app/account/service/account.service'
 import { NotifierApplicationService } from '@app/notifier/service/notifier.service';
 import { ApplicationError } from '@core/domain/AppError';
 import { RestaurantApplicationService } from '@app/restaurant/services/restaurant.service';
+import { FavoriteApplicationService } from '@app/favorites/services/favorites.service';
+import jwtParserMiddleware from '@infrastructure/transport/http/middleware/jwtParser.middleware';
 
-@controller("/api/v1/favorites")
+@controller("/api/v1/favorites", jwtParserMiddleware)
 export class FavoritesController {
   constructor(
     @inject(KEYS.AccountApplication) private readonly accountService: AccountApplicationService,
     @inject(KEYS.RestaurantApplication) private readonly restaurantService: RestaurantApplicationService,
-    @inject(KEYS.NotifierApplication) private readonly notifierService: NotifierApplicationService
+    @inject(KEYS.NotifierApplication) private readonly notifierService: NotifierApplicationService,
+    @inject(KEYS.FavoriteApplication) private readonly service: FavoriteApplicationService
   ) { }
 
   @httpGet("/")
   async getAllFavoritesCollection(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
+    const userID = req.body.jwt_payload.user_id
+    const favoriteResp = await this.service.search(userID)
+    return res.status(statusCode.OK).json(okResp(favoriteResp, 'success get all favorite'));
   }
 
   @httpGet("/:favorite_id")
   async getAllFavoriteDetail(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
+    const userID = req.body.jwt_payload.user_id
+
+    const favoriteCollectionID = req.params.favorite_id
+    if (!favoriteCollectionID || favoriteCollectionID === "") {
+      throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "favorite collection name id required")
+    }
+
+    const resp = await this.service.infoRestaurantInFavorite(favoriteCollectionID, userID)
+    return res.status(statusCode.OK).json(okResp(resp, 'success get favorite collection detail'));
   }
+
 
   @httpPost("/create")
   async createNewFavorite(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
+    const userID = req.body.jwt_payload.user_id
+    const favoriteCollectionName = req.body.favorite_name
+    if (!favoriteCollectionName || favoriteCollectionName === "") {
+      throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "favorite collection name are required")
+    }
+
+    const resp = await this.service.createNewFavoriteCollection(favoriteCollectionName, userID)
+    return res.status(statusCode.OK).json(okResp(resp, 'success add new favorite collection'));
+  }
+
+  @httpPut("/:favorite_id")
+  async editFavorite(@request() req: Request, @response() res: Response) {
+    const userID = req.body.jwt_payload.user_id
+    const favoriteCollectionName = req.body.favorite_name
+    if (!favoriteCollectionName || favoriteCollectionName === "") {
+      throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "favorite collection name are required")
+    }
+
+    const favoriteCollectionID = req.params.favorite_id
+    if (!favoriteCollectionID || favoriteCollectionID === "") {
+      throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "favorite collection name id required")
+    }
+
+    const resp = await this.service.updateFavoriteCollection(favoriteCollectionName, favoriteCollectionID, userID)
+    return res.status(statusCode.OK).json(okResp(resp, 'success edit favorite collection'));
   }
 
   @httpDelete('/:favorite_id')
   async removeFavorite(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
+    const userID = req.body.jwt_payload.user_id
+
+    const favoriteCollectionID = req.params.favorite_id
+    if (!favoriteCollectionID || favoriteCollectionID === "") {
+      throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "favorite collection name id required")
+    }
+    const resp = await this.service.deleteFavoriteCollection(favoriteCollectionID, userID)
+    return res.status(statusCode.OK).json(okResp(resp, 'success delete favorite collection'));
   }
 
-  @httpPut('/attach/:favorite_id')
+  @httpPut('/:favorite_id/attach')
   async addNewRestaurantToFavorite(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
+    const userID = req.body.jwt_payload.user_id
+
+    const favoriteCollectionID = req.params.favorite_id
+    if (!favoriteCollectionID || favoriteCollectionID === "") {
+      throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "favorite collection name id required")
+    }
+
+    const id = req.body.id as string
+    if (!id || id === "") {
+      throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "restaurant id required")
+    }
+
+    const resp = await this.service.attachRestaurantToFavoriteCollection(id, favoriteCollectionID, userID)
+
+    return res.status(statusCode.OK).json(okResp(resp, 'success adding new favorite restaurant'));
   }
 
-  @httpPut('/detach/:favorite_id')
+  @httpPut('/:favorite_id/detach')
   async removeRestaurantFromFavorite(@request() req: Request, @response() res: Response) {
-    return res.status(statusCode.OK).json(okResp({ ping: "PONG!!!" }, 'Success'));
+    const userID = req.body.jwt_payload.user_id
+
+    const favoriteCollectionID = req.params.favorite_id
+    if (!favoriteCollectionID || favoriteCollectionID === "") {
+      throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "favorite collection name id required")
+    }
+
+    const id = req.body.id as string
+    if (!id || id === "") {
+      throw new ApplicationError(statusCode.BAD_REQUEST, statusCode.BAD_REQUEST, "restaurant id required")
+    }
+
+    const resp = await this.service.detachRestaurantToFavoriteCollection(id, favoriteCollectionID, userID)
+
+    return res.status(statusCode.OK).json(okResp(resp, 'success delete restaurant from favorite'));
   }
 
+
+  // send to other user email
   @httpPost("/send-invitation")
   async sendInvitation(@request() req: Request, @response() res: Response) {
     const toEmail = req.body.to

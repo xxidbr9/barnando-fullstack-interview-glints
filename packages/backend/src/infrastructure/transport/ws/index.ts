@@ -9,7 +9,7 @@ import { AccountEntity } from '@app/account/domain';
 import { FavoriteRestaurantEntity } from '@app/favorites/domain';
 
 @injectable()
-@Controller("/favorite")
+@Controller("")
 export class WebSocketController {
   constructor(
     @inject(KEYS.PostgresDB) private readonly db: DataSource,
@@ -40,12 +40,22 @@ export class WebSocketController {
 
   // listen to user adding new item on list
   @OnMessage("update_list")
-  async updateList(@Payload() payload: FavoriteWSPayload, @SocketIO() socket: Socket,) {
+  async update_list(@Payload() payload: FavoriteWSPayload, @SocketIO() socket: Socket) {
     const repoFav = this.db.getRepository(FavoriteRestaurantEntity)
-    const resp = await repoFav.createQueryBuilder()
-      .where("favorite_id = :id", { id: payload.favorite_id })
+    const resp = await repoFav.createQueryBuilder("favorite")
+      .where("favorite.favorite_id = :id", { id: payload.favorite_id }).orderBy("favorite.created_at", "ASC")
+      .getOne()
+    console.log(payload.favorite_id)
+    socket.emit(payload.favorite_id, "hai");
+  }
 
-    socket.emit(payload.favorite_id, resp);
+  @OnMessage("updates")
+  updates(@Payload() payload: FavoriteWSPayload, @SocketIO() socket: Socket) {
+    console.group("========== ok")
+    console.log(payload)
+    console.groupEnd()
+    socket.emit(payload.favorite_id, { ...payload });
+    socket.emit("hello", { ...payload });
   }
 }
 
@@ -54,3 +64,5 @@ type FavoriteWSPayload = {
   total: number
   hightLighted: string
 }
+
+

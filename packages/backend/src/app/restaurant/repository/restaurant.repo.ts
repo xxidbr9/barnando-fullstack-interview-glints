@@ -69,7 +69,7 @@ export class RestaurantRepository {
   * Normally i do separate query and repo, 
   * separating `READ LOGIC` and `MANIPULATING LOGIC`.
 
-  * And can be implement memory story like (Redis, MemCache, etc) 
+  * And can be implement in memory store like (Redis, MemCache, etc) 
   * for better performance reading data
   **/
   async search(q: string, days: NumberOfDayWeeks[], openTime: number, closeTime: number, limit: number, page: number): Promise<ISearchResponse<"restaurants", RestaurantEntity[]>> {

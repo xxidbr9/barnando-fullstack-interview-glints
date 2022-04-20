@@ -12,17 +12,16 @@ import { RestaurantDto, RestaurantSearchDto } from "../dtos/restaurant.dto";
 
 /* 
 ? TODO ?
-[ ] Add new Restaurant
-[ ] Get All Restaurant
-[ ] Get Restaurant info
+[X] Add new Restaurant
+[X] Get All Restaurant
+[X] Get Restaurant info
 */
 @injectable()
 export class RestaurantApplicationService {
 
   constructor(
     @inject(KEYS.RestaurantRepository) private readonly restaurantRepository: RestaurantRepository,
-  ) {
-  }
+  ) {}
 
   async search(q: string, days: NumberOfDayWeeks[], open: string, close: string, limit: number, page: number = 0) {
     let openTime: number = 0

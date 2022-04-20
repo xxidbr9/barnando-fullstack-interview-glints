@@ -44,8 +44,9 @@ describe("Test all favorite entity", () => {
     const fav = new FavoriteEntity()
     fav.id = "fav_123"
     fav.name = "Tasty Restaurant"
-    fav.userID = user.id
-    fav.createAt = Date.now()
+    fav.userID = user.id as string
+    fav.createdAt = Date.now()
+    fav.updatedAt = Date.now()
 
     const repo = DB.dbConnect.getRepository(FavoriteEntity)
 
@@ -59,7 +60,7 @@ describe("Test all favorite entity", () => {
     favRestaurant.favoriteID = favorite.id
     favRestaurant.restaurantID = restaurant.id
     favRestaurant.id = "fav_restaurant_123"
-    favRestaurant.createAt = Date.now()
+    favRestaurant.createdAt = Date.now()
     favRestaurant.adderID = user.id as string
 
     const repo = DB.dbConnect.getRepository(FavoriteRestaurantEntity)
