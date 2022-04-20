@@ -25,4 +25,4 @@ jobs:
             git status
             yarn --frozen-lockfile
             yarn workspace backend build
-            NODE_ENV=prod pm2 restart glints-backend
+            NODE_ENV=prod pm2 restart glints-backend --update-env
