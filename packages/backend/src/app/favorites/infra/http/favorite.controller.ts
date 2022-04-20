@@ -40,7 +40,6 @@ export class FavoritesController {
     return res.status(statusCode.OK).json(okResp(resp, 'success get favorite collection detail'));
   }
 
-
   @httpPost("/create")
   async createNewFavorite(@request() req: Request, @response() res: Response) {
     const userID = req.body.jwt_payload.user_id

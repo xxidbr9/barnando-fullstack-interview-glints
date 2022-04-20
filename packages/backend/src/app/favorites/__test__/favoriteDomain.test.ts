@@ -57,7 +57,7 @@ describe("Test all favorite entity", () => {
 
   test("add favorite restaurant", async () => {
     const favRestaurant = new FavoriteRestaurantEntity()
-    favRestaurant.favoriteID = favorite.id
+    favRestaurant.favoriteID = favorite.id as string
     favRestaurant.restaurantID = restaurant.id
     favRestaurant.id = "fav_restaurant_123"
     favRestaurant.createdAt = Date.now()
