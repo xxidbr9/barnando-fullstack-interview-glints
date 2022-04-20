@@ -84,12 +84,24 @@ export class RestaurantRepository {
       query = query.andWhere("schedules.day IN (:...days)", { days })
     }
 
-    if (openTime > 0) {
-      query = query.andWhere("schedules.open_time > :time", { time: openTime })
-    }
+    if (openTime > 0 || closeTime > 0) {
 
-    if (closeTime > 0) {
-      query = query.andWhere("schedules.close_time > :time", { time: closeTime })
+      if (openTime > 0 && closeTime > 0 && openTime < closeTime) {
+        query = query.andWhere(`
+        ( schedules.open_time >= :openTime and schedules.close_time between :openTime and :closeTime ) or
+        ( schedules.close_time <= :closeTime and schedules.open_time between :openTime and :closeTime )
+        `, { openTime, closeTime })
+      } else if (openTime > 0 && closeTime > 0 && openTime > closeTime) {
+        query = query.andWhere(`
+          ( schedules.open_time >= :openTime and schedules.close_time not between :openTime and :closeTime ) or
+          ( schedules.close_time <= :closeTime and schedules.open_time not between :openTime and :closeTime )
+          `, { openTime, closeTime })
+
+      } else if (openTime > 0) {
+        query = query.andWhere("schedules.open_time >= :time", { time: openTime })
+      } else if (closeTime > 0) {
+        query = query.andWhere("schedules.close_time <= :time", { time: closeTime })
+      }
     }
 
     const total = await query.getCount()
@@ -103,7 +115,7 @@ export class RestaurantRepository {
     }
 
     const results = await query.getMany()
-    
+
     return {
       total,
       is_have_next: results.length >= limit,
