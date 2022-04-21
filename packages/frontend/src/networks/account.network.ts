@@ -33,7 +33,7 @@ export function profileNetwork(token: IAuthTokenHeader): NetworkPromise<IProfile
 
 export function continueWithSocialNetwork(body: IOauthRequest): NetworkPromise<ILoginResponse> {
   return airAxios({
-    url: "/api/v1/auth/social",
+    url: "/api/v1/oauth/social",
     method: "POST",
     data: body
   })

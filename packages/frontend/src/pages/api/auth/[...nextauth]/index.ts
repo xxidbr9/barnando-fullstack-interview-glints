@@ -12,7 +12,6 @@ import { loginNetwork, continueWithSocialNetwork, profileNetwork } from '@networ
 
 interface IToken extends User {
   accessToken: string
-  refreshToken: string
 }
 
 const airProvider = Providers.Credentials({
@@ -77,13 +76,14 @@ const callbacks: CallbacksOptions<Profile, Account> = {
         provider: account.provider,
       })
 
+      console.log(respSocial)
+
       jwt.accessToken = respSocial.data.data.access_token
 
       return jwt
     } else {
       if (user) {
         jwt.accessToken = user.accessToken
-        jwt.refreshToken = user.refreshToken
       }
       return jwt
     }
@@ -91,7 +91,6 @@ const callbacks: CallbacksOptions<Profile, Account> = {
 
   async session(session, token: IToken) {
     session.accessToken = token.accessToken
-    session.refreshToken = token.refreshToken
     const userProfile = await profileNetwork({
       access_token: session.accessToken as string,
     })
