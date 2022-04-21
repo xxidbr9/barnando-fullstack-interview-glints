@@ -7,7 +7,7 @@ const getMobileOS = (): MobileDeviceOS => {
     return 'Android'
   }
 
-  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+  if (/iPad|iPhone|iPod/.test(userAgent)) {
     return 'iOS'
   }
 

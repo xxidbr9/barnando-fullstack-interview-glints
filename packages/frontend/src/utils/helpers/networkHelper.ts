@@ -1,7 +1,8 @@
-import { IAuthHeader } from "@utils/types/network";
+import { IAuthTokenHeader } from "@utils/types/network";
 
-export function authHeaderDto(headers: IAuthHeader) {
+
+export function authHeaderDto(token: IAuthTokenHeader) {
   return {
-    Authorization: `Bearer ${headers.access_token}`
+    Authorization: `Bearer ${token.access_token}`
   }
 }
