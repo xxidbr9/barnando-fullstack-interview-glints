@@ -3,19 +3,19 @@ import { KEYS } from "@core/keys";
 import { okResp } from "@infrastructure/transport/http/processor";
 import { Request, Response } from "express";
 import { inject } from "inversify";
-import { controller, httpGet, request, response } from "inversify-express-utils";
+import { controller, httpPost, request, response } from "inversify-express-utils";
 import statusCode from 'http-status-codes'
 import { ApplicationError } from "@core/domain/AppError";
 import config from '@config/main'
 import jwt from 'jsonwebtoken'
-@controller('/api/v1/account')
+@controller('/api/v1/oauth')
 export class AccountSocialController {
   constructor(
     @inject(KEYS.AccountApplication)
     private readonly service: AccountApplicationService
   ) { }
 
-  @httpGet('/continue')
+  @httpPost('/social')
   async continueWithSocial(@request() req: Request, @response() res: Response) {
     // normally i do refresh token, short expire time for secure the access
     const accessToken = req.body.access_token
@@ -30,6 +30,7 @@ export class AccountSocialController {
 
     try {
       const userID = await this.service.continueWithSocial(accessToken, provider)
+      console.log(userID)
       const jwtData = jwt.sign({ user_id: userID }, config.JWT_SALT)
       return res.status(statusCode.OK).json(okResp({ access_token: jwtData }, 'success, but normally i do refresh_token, and a short expire time for secure the access'));
     } catch (err) {

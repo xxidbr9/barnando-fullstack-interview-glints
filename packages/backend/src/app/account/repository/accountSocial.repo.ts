@@ -7,9 +7,8 @@ import { AccountSocialEntity } from "../domain";
 export class AccountSocialRepository {
   constructor(
     @inject(KEYS.PostgresDB) private readonly db: DataSource,
-    @inject(KEYS.AccountDataMapper) private readonly accountSocialDataMapper: IDataMapper<AccountSocialEntity>
+    @inject(KEYS.AccountSocialDataMapper) private readonly accountSocialDataMapper: IDataMapper<AccountSocialEntity>
   ) {
-    // super(db.collection('users'), userDataMapper);
     this.repo = db.getRepository(AccountSocialEntity)
   }
   private repo: Repository<AccountSocialEntity>;
@@ -44,7 +43,7 @@ export class AccountSocialRepository {
         provider,
       }
     })
-
+    
     if (resp === null) {
       return null
     }
