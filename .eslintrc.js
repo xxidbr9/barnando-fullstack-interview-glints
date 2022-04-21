@@ -3,14 +3,14 @@ module.exports = {
   extends: [
     "prettier",
     "plugin:prettier/recommended",
-    "eslint-config-prettier",
+    "eslint-config-prettier"
   ],
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "prettier"],
   rules: {
     "import/extensions": 0,
     "@typescript-eslint/no-use-before-define": ["error", { variables: false }],
-    "import/no-unresolved": "off",
+    "import/no-unresolved": "off"
   },
   overrides: [
     {
@@ -20,8 +20,8 @@ module.exports = {
         "no-shadow": "off",
         "no-undef": "off",
         "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": ["error"],
-      },
-    },
-  ],
+        "@typescript-eslint/no-use-before-define": ["error"]
+      }
+    }
+  ]
 };
