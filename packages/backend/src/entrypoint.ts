@@ -16,6 +16,8 @@ import { Interfaces, InversifySocketServer, TYPE } from 'inversify-socket-utils'
 import { WebSocketController } from '@infrastructure/transport/ws';
 import whitelistOrigin from '@config/whitelistOrigin';
 
+const isDev = process.env.NODE_ENV === "dev"
+
 const initialize = async () => {
   const container = new Container();
   container.load(applicationContainerModule);
@@ -32,7 +34,14 @@ const initialize = async () => {
     app.use(bodyParser.json());
     const logger = morgan.default("common")
     app.use(logger)
-    app.use(cors())
+    if (isDev) {
+      app.use(cors())
+    } else {
+      app.use(cors({
+        origin: process.env.FRONTEND_URL
+      }))
+    }
+
   });
 
 

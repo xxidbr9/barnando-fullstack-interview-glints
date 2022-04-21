@@ -7,6 +7,7 @@ const whitelistOrigin = [
   "http://192.168.10.108:9000",
   "http://192.168.10.108:3000",
   "http://192.168.10.108:5500",
+  process.env.FRONTEND_URL as string
 ]
 
 export default whitelistOrigin
