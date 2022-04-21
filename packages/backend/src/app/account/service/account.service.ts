@@ -69,9 +69,7 @@ export class AccountApplicationService {
 
       const existedUser = await this.accountRepository.findByEmail(getUserInfo.email)
       if (existedUser !== null) {
-
         const reFinnedUser = await this.accountSocialRepository.findBySocialIDAndProvider(getUserInfo.id, provider as string)
-
         if (reFinnedUser === null) {
           const newSocialUser = await this.accountSocialRepository.save({
             provider: provider,
@@ -82,12 +80,13 @@ export class AccountApplicationService {
         }
         return reFinnedUser.userID
       }
-
+            
       const newUser = await this.accountRepository.save({
         email: getUserInfo.email,
         fullName: getUserInfo.name,
         pictureProfileUrl: getUserInfo.picture,
       })
+
 
       const newUserSocial = await this.accountSocialRepository.save({
         provider: provider as string,

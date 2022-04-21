@@ -76,8 +76,6 @@ const callbacks: CallbacksOptions<Profile, Account> = {
         provider: account.provider,
       })
 
-      console.log(respSocial)
-
       jwt.accessToken = respSocial.data.data.access_token
 
       return jwt
@@ -108,7 +106,7 @@ const options: NextAuthOptions = {
   providers,
   callbacks,
   pages: {
-    error: '/login',
+    error: '/example',
   },
 }
 

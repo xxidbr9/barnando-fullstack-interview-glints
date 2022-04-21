@@ -43,7 +43,7 @@ export class AccountSocialRepository {
         provider,
       }
     })
-
+    
     if (resp === null) {
       return null
     }
