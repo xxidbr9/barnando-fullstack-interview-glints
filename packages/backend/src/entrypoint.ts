@@ -34,9 +34,19 @@ const initialize = async () => {
     app.use(bodyParser.json());
     const logger = morgan.default("common")
     app.use(logger)
+
     app.use(cors({
       origin: "*",
     }))
+    
+    if (!isDev) {
+      app.all('*', function (_req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*")
+        res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With")
+        res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS")
+        next()
+      })
+    }
 
   });
 
