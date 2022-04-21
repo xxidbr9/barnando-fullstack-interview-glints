@@ -34,13 +34,9 @@ const initialize = async () => {
     app.use(bodyParser.json());
     const logger = morgan.default("common")
     app.use(logger)
-    if (isDev) {
-      app.use(cors())
-    } else {
-      app.use(cors({
-        origin: process.env.FRONTEND_URL
-      }))
-    }
+    app.use(cors({
+      origin: "*",
+    }))
 
   });
 
