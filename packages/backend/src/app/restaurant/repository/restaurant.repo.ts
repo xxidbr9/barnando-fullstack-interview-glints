@@ -85,18 +85,19 @@ export class RestaurantRepository {
     }
 
     if (openTime > 0 || closeTime > 0) {
+      if (openTime > 0 && closeTime > 0) {
+        if (openTime < closeTime) {
+          query = query.andWhere(`
+          ( schedules.open_time >= :openTime and schedules.close_time between :openTime and :closeTime ) or
+          ( schedules.close_time <= :closeTime and schedules.open_time between :openTime and :closeTime )
+          `, { openTime, closeTime })
 
-      if (openTime > 0 && closeTime > 0 && openTime < closeTime) {
-        query = query.andWhere(`
-        ( schedules.open_time >= :openTime and schedules.close_time between :openTime and :closeTime ) or
-        ( schedules.close_time <= :closeTime and schedules.open_time between :openTime and :closeTime )
-        `, { openTime, closeTime })
-      } else if (openTime > 0 && closeTime > 0 && openTime > closeTime) {
-        query = query.andWhere(`
+        } else if (openTime > closeTime) {
+          query = query.andWhere(`
           ( schedules.open_time >= :openTime and schedules.close_time not between :openTime and :closeTime ) or
           ( schedules.close_time <= :closeTime and schedules.open_time not between :openTime and :closeTime )
           `, { openTime, closeTime })
-
+        }
       } else if (openTime > 0) {
         query = query.andWhere("schedules.open_time >= :time", { time: openTime })
       } else if (closeTime > 0) {
@@ -160,7 +161,7 @@ export class RestaurantRepository {
   [ ] change env between prod and dev
   */
   async bulkInsert() {
-    var data = fs.readFileSync(`${process.env.PWD}/src/assets/hours.csv`).toLocaleString();
+    var data = fs.readFileSync(`${process.env.PWD}/assets/hours.csv`).toLocaleString();
     var rows = data.split("\n");
     type initialDataType = {
       name: string

@@ -13,3 +13,6 @@ export const DAYS: DayOfTheWeekMap<number> = {
   weds: 2,
   thurs: 3,
 };
+
+export const DAY_STORE_FORMAT = "HHmm"
+export const DAY_STORE_FORMAT_ZERO = "Hmm"

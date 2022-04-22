@@ -1,4 +1,4 @@
-import { DAYS } from "@shared/constants/days";
+import { DAYS, DAY_STORE_FORMAT } from "@shared/constants/days";
 import { DayOfTheWeek, DayToDay } from "@shared/types/day";
 import moment from "moment";
 
@@ -22,7 +22,7 @@ export const calculateDayRange = (listDay: string[]) => {
   return range(numberDayList[0] as number, numberDayList[1] as number);
 };
 
-export const toUnixTime = (time: string | Date) => moment(time, "h:mm A").unix();
+export const toNumericTime = (time: string | Date) => moment(time, "h:mm A").format(DAY_STORE_FORMAT);
 
 export function checkIsNumeric(str: string): boolean {
   return !isNaN(parseFloat(str[0]));
@@ -71,7 +71,7 @@ const parseDay = (token: string) => {
       dayList.forEach(e => {
         const dayStepNow = Object.create(initDayNow);
         dayStepNow.day = e;
-        const time = toUnixTime(item + dayToken[index + 1]);
+        const time = toNumericTime(item + dayToken[index + 1]);
 
         if (!isTime) {
           dayStepNow.openTime = time;

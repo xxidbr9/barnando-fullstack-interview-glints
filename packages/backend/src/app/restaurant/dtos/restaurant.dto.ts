@@ -12,8 +12,8 @@ export class RestaurantDto {
     this.schedules = openSchedules.map((schedule) => (
       {
         day: +schedule.day,
-        open_time: +schedule.openTime,
-        close_time: +schedule.closeTime,
+        open_time: schedule.openTime,
+        close_time: schedule.closeTime,
       }
     ))
 

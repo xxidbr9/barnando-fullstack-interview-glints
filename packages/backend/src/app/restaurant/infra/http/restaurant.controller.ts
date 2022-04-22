@@ -39,7 +39,7 @@ export class RestaurantController {
   @httpGet('/migrate')
   async migrate(@request() req: Request, @response() res: Response) {
     await this.service.migrate()
-    return res.status(statusCode.OK).json(okResp({}, 'success get info restaurant'));
+    return res.status(statusCode.OK).json(okResp({}, 'success migrate '));
   }
 
   @httpGet('/:id')
