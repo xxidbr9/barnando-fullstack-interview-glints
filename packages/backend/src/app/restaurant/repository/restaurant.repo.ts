@@ -112,8 +112,10 @@ export class RestaurantRepository {
     }
 
     if (page > 0) {
-      query = query.skip(page)
+      query = query.skip((page - 1) * limit)
     }
+
+    query.orderBy("restaurant.id", "DESC")
 
     const results = await query.getMany()
 
