@@ -14,6 +14,7 @@ export class AccountDataMapper implements IDataMapper<AccountEntity> {
     if (!!dalEntity?.password) {
       entity.password = bcrypt.hashSync(dalEntity.password as string, bcrypt.genSaltSync(4))
     }
+    entity.pictureProfileUrl = dalEntity.pictureProfileUrl
     return entity
   }
 
