@@ -62,7 +62,6 @@ export class AccountApplicationService {
     try {
       const getUserInfo = await getUserSocialInfoFromProvider(accessToken, provider)
       const finnedUser = await this.accountSocialRepository.findBySocialIDAndProvider(getUserInfo.id, provider as string)
-
       if (finnedUser !== null) {
         return finnedUser.userID
       }
@@ -86,7 +85,6 @@ export class AccountApplicationService {
         fullName: getUserInfo.name,
         pictureProfileUrl: getUserInfo.picture,
       })
-
 
       const newUserSocial = await this.accountSocialRepository.save({
         provider: provider as string,
