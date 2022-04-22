@@ -5,12 +5,12 @@ export type NumberOfDayWeeks = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 export type DayToDay = {
   day: number,
-  closeTime: number,
-  openTime: number
+  closeTime: string,
+  openTime: string
 }
 
 export type DayToDayJSON = {
   day: number,
-  close_time: number,
-  open_time: number
+  close_time: string,
+  open_time: string
 }

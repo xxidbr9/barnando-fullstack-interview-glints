@@ -19,18 +19,18 @@ export class RestaurantOpenTimeEntity {
   day!: number
 
   @Column({
-    type: "bigint",
+    type: "numeric",
     name: "open_time"
   })
   @Index()
-  openTime!: number
+  openTime!: string
 
   @Column({
-    type: "bigint",
+    type: "numeric",
     name: "close_time"
   })
   @Index()
-  closeTime!: number
+  closeTime!: string
 
   @ManyToOne(() => RestaurantEntity, (restaurant) => restaurant.schedules, { onDelete: "CASCADE" })
   restaurant!: RestaurantEntity

@@ -1,7 +1,8 @@
+import { DAY_STORE_FORMAT } from "@shared/constants/days";
 import parser, { checkIsNumeric, findDay, range } from "@shared/helpers/transformRestaurant";
 import moment from "moment";
 
-const parseTo12Hour = (time: number) => moment.unix(time).format("hh:mm A")
+const parseTo12Hour = (time: string) => moment(time, DAY_STORE_FORMAT).format("hh:mm A")
 
 const TEST_CASE_1 = "Mon-Sun 11 am - 10:30 pm";
 const EXPECTED_TEST_1 = [
