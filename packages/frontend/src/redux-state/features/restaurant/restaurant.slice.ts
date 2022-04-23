@@ -16,14 +16,14 @@ const initialState: RestaurantState = {
   restaurants: [],
   is_have_next: false,
   total: 0,
-  page: 0,
+  page: 1,
   loading: true,
   error: null
 }
 
 const fetchNextRestaurant = createAsyncThunk(
   'restaurant/fetchRestaurantNext',
-  async (page: number, thunkAPI) => {
+  async (page: number, _thunkAPI) => {
     try {
       const response = await searchRestaurantNetwork({ page })
       return {
@@ -78,8 +78,6 @@ export const restaurantSlice = createSlice({
 
 export const restaurantAction = restaurantSlice.actions;
 export const restaurantReducer = restaurantSlice.reducer;
-
-
 
 export const restaurantThunkAction = {
   fetchNextRestaurant,

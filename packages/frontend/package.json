@@ -43,7 +43,7 @@
         "nextjs-progressbar": "^0.0.11",
         "postcss-custom-properties-fallback": "^1.0.1",
         "react": "17.0.2",
-        "react-content-loader": "^6.0.3",
+        "react-content-loader": "^6.2.0",
         "react-dom": "17.0.2",
         "react-facebook-pixel": "^1.0.4",
         "react-ga": "^3.3.0",

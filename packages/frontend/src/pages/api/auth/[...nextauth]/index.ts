@@ -106,7 +106,7 @@ const options: NextAuthOptions = {
   providers,
   callbacks,
   pages: {
-    error: '/example',
+    error: '/login',
   },
 }
 
