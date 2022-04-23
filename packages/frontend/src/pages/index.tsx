@@ -23,7 +23,6 @@ const HomePage = () => {
 
   return (
     <div>
-
       <InfiniteScroll
         pageStart={0}
         loadMore={_handleNext}
@@ -32,7 +31,7 @@ const HomePage = () => {
         loader={<div className="loader" key={0}>Loading ...</div>}
       >
         {rdxRestaurants.restaurants.map((restaurant, index) => (
-          <div style={style} key={index}>
+          <div className='dark:text-gray-500' style={style} key={index}>
             {index} - {restaurant.name}
           </div>
         ))}

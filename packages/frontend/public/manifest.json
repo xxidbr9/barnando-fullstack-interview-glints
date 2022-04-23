@@ -1,0 +1,116 @@
+{
+    "name": "Air Restaurant",
+    "short_name": "Air Restaurant",
+    "description": "Find your beloved restaurant around you",
+    "icons": [{
+            "src": "/images/app_icon/16.png",
+            "sizes": "16x16"
+        },
+        {
+            "src": "/images/app_icon/20.png",
+            "sizes": "20x20"
+        },
+        {
+            "src": "/images/app_icon/29.png",
+            "sizes": "29x29"
+        },
+        {
+            "src": "/images/app_icon/32.png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "/images/app_icon/40.png",
+            "sizes": "40x40"
+        },
+        {
+            "src": "/images/app_icon/50.png",
+            "sizes": "50x50"
+        },
+        {
+            "src": "/images/app_icon/57.png",
+            "sizes": "57x57"
+        },
+        {
+            "src": "/images/app_icon/58.png",
+            "sizes": "58x58"
+        },
+        {
+            "src": "/images/app_icon/60.png",
+            "sizes": "60x60"
+        },
+        {
+            "src": "/images/app_icon/64.png",
+            "sizes": "64x64"
+        },
+        {
+            "src": "/images/app_icon/72.png",
+            "sizes": "72x72"
+        },
+        {
+            "src": "/images/app_icon/76.png",
+            "sizes": "76x76"
+        },
+        {
+            "src": "/images/app_icon/80.png",
+            "sizes": "80x80"
+        },
+        {
+            "src": "/images/app_icon/87.png",
+            "sizes": "87x87"
+        },
+        {
+            "src": "/images/app_icon/100.png",
+            "sizes": "100x100"
+        },
+        {
+            "src": "/images/app_icon/114.png",
+            "sizes": "114x114"
+        },
+        {
+            "src": "/images/app_icon/120.png",
+            "sizes": "120x120"
+        },
+        {
+            "src": "/images/app_icon/128.png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "/images/app_icon/144.png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "/images/app_icon/152.png",
+            "sizes": "152x152"
+        },
+        {
+            "src": "/images/app_icon/167.png",
+            "sizes": "167x167"
+        },
+        {
+            "src": "/images/app_icon/180.png",
+            "sizes": "180x180"
+        },
+        {
+            "src": "/images/app_icon/192.png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/images/app_icon/256.png",
+            "sizes": "256x256"
+        },
+        {
+            "src": "/images/app_icon/512.png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "/images/app_icon/1024.png",
+            "sizes": "1024x1024"
+        }
+    ],
+    "start_url": "/?source=pwa",
+    "background_color": "#1d2020",
+    "orientation": "portrait",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#1d2020"
+}
