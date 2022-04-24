@@ -1,5 +1,6 @@
 export enum BASE_ROUTES_TYPE {
   HOME = '/',
+  FAVORITE = "/favorite",
   NOT_FOUND = "/oops"
 }
 

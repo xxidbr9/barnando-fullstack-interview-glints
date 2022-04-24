@@ -61,14 +61,14 @@ export class AccountApplicationService {
 
     try {
       const getUserInfo = await getUserSocialInfoFromProvider(accessToken, provider)
-      const finnedUser = await this.accountSocialRepository.findBySocialIDAndProvider(getUserInfo.id, provider as string)
+      const finnedUser = await this.accountSocialRepository.findBySocialIDAndProvider(getUserInfo.id)
       if (finnedUser !== null) {
         return finnedUser.userID
       }
 
       const existedUser = await this.accountRepository.findByEmail(getUserInfo.email)
       if (existedUser !== null) {
-        const reFinnedUser = await this.accountSocialRepository.findBySocialIDAndProvider(getUserInfo.id, provider as string)
+        const reFinnedUser = await this.accountSocialRepository.findBySocialIDAndProvider(getUserInfo.id)
         if (reFinnedUser === null) {
           const newSocialUser = await this.accountSocialRepository.save({
             provider: provider,

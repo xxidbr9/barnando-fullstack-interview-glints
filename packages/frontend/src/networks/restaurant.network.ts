@@ -3,7 +3,7 @@ import airAxios from "@utils/libs/axios";
 import { ISearchRequest, NetworkPromise } from "@utils/types/network";
 
 
-type IParams = ISearchRequest & {
+export type ISearchRestaurantParams = ISearchRequest & {
   open?: string,
   close?: string,
   day_open?: string
@@ -12,7 +12,7 @@ type IParams = ISearchRequest & {
 const RESTAURANT_URL = "/api/v1/restaurant"
 
 export function searchRestaurantNetwork(
-  params?: IParams
+  params?: ISearchRestaurantParams
 ): NetworkPromise<IRestaurantResponse> {
   return airAxios({
     params,

@@ -96,8 +96,8 @@ const callbacks: CallbacksOptions<Profile, Account> = {
     /* For Get User Info */
     session.user.name = userProfile.data.data.profile.full_name
     session.user.email = userProfile.data.data.profile.email
-    session.user.image = userProfile.data.data.profile.picture_profile_url
-
+    session.user.picture_profile_url = userProfile.data.data.profile.picture_profile_url
+    session.user.id = userProfile.data.data.profile.id
     return session
   },
 }
@@ -106,7 +106,7 @@ const options: NextAuthOptions = {
   providers,
   callbacks,
   pages: {
-    error: '/example',
+    error: '/login',
   },
 }
 

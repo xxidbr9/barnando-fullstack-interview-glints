@@ -36,11 +36,10 @@ export class AccountSocialRepository {
     return this.accountSocialDataMapper.toDomain(resp)
   }
 
-  async findBySocialIDAndProvider(socialID: string, provider: string): Promise<AccountSocialEntity | null> {
+  async findBySocialIDAndProvider(socialID: string): Promise<AccountSocialEntity | null> {
     const resp = await this.repo.findOne({
       where: {
         socialID,
-        provider,
       }
     })
     

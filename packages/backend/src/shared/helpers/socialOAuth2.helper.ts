@@ -1,4 +1,4 @@
-import { IOAuthProvider, IOAuth2Resp, IFacebookResp, IGoogleResp } from "@shared/types/accountSocial";
+import { IOAuthProvider, IOAuth2Resp, IFacebookResp, IGoogleResp, IGoogleOneTapResp } from "@shared/types/accountSocial";
 import axios from "axios";
 
 // Get from facebook
@@ -32,11 +32,11 @@ async function getFromGoogle(accessToken: string): Promise<IOAuth2Resp> {
 // Get from Google One Tap
 async function getFromGoogleOneTap(accessToken: string): Promise<IOAuth2Resp> {
   const resp = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${accessToken}`)
-  const userInfo = resp.data as IGoogleResp
+  const userInfo = resp.data as IGoogleOneTapResp
 
   return {
     email: userInfo.email,
-    id: userInfo.id,
+    id: userInfo.sub,
     name: userInfo.name,
     picture: userInfo.picture
   }

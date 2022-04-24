@@ -1,5 +1,5 @@
 import { IRestaurant } from '@models/restaurant.model';
-import { searchRestaurantNetwork } from '@networks/restaurant.network';
+import { ISearchRestaurantParams, searchRestaurantNetwork } from '@networks/restaurant.network';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 
@@ -16,19 +16,36 @@ const initialState: RestaurantState = {
   restaurants: [],
   is_have_next: false,
   total: 0,
-  page: 0,
+  page: 1,
   loading: true,
   error: null
 }
 
 const fetchNextRestaurant = createAsyncThunk(
   'restaurant/fetchRestaurantNext',
-  async (page: number, thunkAPI) => {
+  async (params: ISearchRestaurantParams, _thunkAPI) => {
     try {
-      const response = await searchRestaurantNetwork({ page })
+      const response = await searchRestaurantNetwork({ ...params })
       return {
         ...response.data.data,
-        page,
+        page: params.page,
+      }
+    } catch (err) {
+      return {
+        error: err
+      }
+    }
+  }
+)
+
+const fetchRestaurant = createAsyncThunk(
+  'restaurant/fetchRestaurant',
+  async (params: ISearchRestaurantParams, _thunkAPI) => {
+    try {
+      const response = await searchRestaurantNetwork({ ...params })
+      return {
+        ...response.data.data,
+        page: params.page,
       }
     } catch (err) {
       return {
@@ -73,14 +90,31 @@ export const restaurantSlice = createSlice({
       state.loading = false
       state.error = action.payload.error
     },
+    [`${fetchRestaurant.pending}`]: (state) => {
+      state.loading = true
+    },
+    [`${fetchRestaurant.fulfilled}`]: (state, action) => {
+      const newRestaurants = action.payload.restaurants
+      return {
+        ...state,
+        restaurants: newRestaurants,
+        is_have_next: action.payload.is_have_next,
+        total: action.payload.total,
+        loading: false,
+        page: action.payload.page
+      }
+    },
+    [`${fetchRestaurant.rejected}`]: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
   },
 })
 
 export const restaurantAction = restaurantSlice.actions;
 export const restaurantReducer = restaurantSlice.reducer;
 
-
-
 export const restaurantThunkAction = {
   fetchNextRestaurant,
+  fetchRestaurant
 }
