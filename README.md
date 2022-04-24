@@ -22,3 +22,8 @@ https://app.getpostman.com/join-team?invite_code=59cd17d5d0971441c8461a657f82d39
 ```bash
 https://api.airrest.xyz
 ```
+
+**WEBSITE**
+```bash
+https://airrest.xyz
+```
