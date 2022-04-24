@@ -4,6 +4,7 @@ export interface IRestaurant {
   name: string;
   pictures: string[];
   address: string;
+  isFavorite?: boolean
 }
 
 export interface IRestaurantResponse {

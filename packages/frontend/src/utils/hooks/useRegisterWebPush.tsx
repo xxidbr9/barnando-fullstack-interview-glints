@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { initializeApp } from 'firebase/app'
-import AppIcon from '@base/public/images/app_icon/128.png'
+import AppIcon from '@base/public/images/app_icon/180.png'
 
 
 const useRegisterWebPush = () => {
@@ -27,7 +27,7 @@ const useRegisterWebPush = () => {
     if (isSupported()) {
       if (Notification.permission == 'granted') {
         const reg = await navigator.serviceWorker.getRegistration() as ServiceWorkerRegistration
-        reg.showNotification(notify, option);
+        reg?.showNotification(notify, option);
       }
     }
   }
@@ -61,10 +61,10 @@ const useRegisterWebPush = () => {
   useEffect(() => {
     if (isSupported()) {
       if (typeof window !== "undefined") {
-        displayNotification("ini notif", {
-        	body: "gatau ini apa",
-        	icon: "/images/favicon.png"
-        })
+        // displayNotification("ini notif", {
+        // 	body: "gatau ini apa",
+        // 	icon: "/images/favicon.png"
+        // })
         const messaging = getMessaging(app);
 
 

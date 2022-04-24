@@ -22,6 +22,7 @@
       "@assets/scss/*": ["./src/assets/scss/*"],
       "@assets/svg/*": ["./src/assets/svg/*"],
       "@assets/font/*": ["./src/assets/font/*"],
+      "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@layout/*": ["src/layout/*"],
       "@networks/*": ["./src/networks/*"],

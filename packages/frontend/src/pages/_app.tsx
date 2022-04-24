@@ -31,12 +31,14 @@ import gridConfig from '@utils/configs/grid.config'
 import { locale } from '@utils/configs/localization.config'
 import { ScreenType } from '@utils/types/screen'
 import NProgress from 'nextjs-progressbar'
-import Head from 'next/head'
-import BRAND_NAME from '@utils/constants/brand'
 import { persistStore } from 'redux-persist'
 import colors from '@styles/colors'
 import useRegisterWebPush from '@utils/hooks/useRegisterWebPush'
 import Meta from '@components/Meta'
+import { useSession } from 'next-auth/client'
+import OneTapLogin from '@components/OneTapLogin'
+import { accountAction } from '@features/account'
+
 
 /* Configuration Start */
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Autoplay])
@@ -52,6 +54,7 @@ const MainApp = ({ Component, pageProps }) => {
   // Redux config
   const store = useStore()
 
+  // not used
   const persistor = persistStore(store, {}, function () {
     persistor.persist()
   })
@@ -66,18 +69,30 @@ const MainApp = ({ Component, pageProps }) => {
   }, [screen, dispatch])
 
   useRegisterWebPush()
+  const [session, isSessionLoading] = useSession()
+
+  useEffect(() => {
+    if (!isSessionLoading && !!session) {
+      dispatch(accountAction.setAccountProfile({
+        isLogin: !!session,
+        profile: session.user
+      }))
+    }
+  }, [session, isSessionLoading])
 
   return (
     <NextTheme
       attribute='class'
-      defaultTheme='dark'
+      defaultTheme='system'
       enableSystem={false}
       disableTransitionOnChange
     >
-      <Head>{BRAND_NAME}</Head>
       <Meta />
       <NProgress color={colors?.['red'][500] as string} />
       <ThemeProvider theme={theme}>
+        {!isSessionLoading && (
+          <OneTapLogin isLogin={!!session} />
+        )}
         <Component {...pageProps} />
       </ThemeProvider>
     </NextTheme>
