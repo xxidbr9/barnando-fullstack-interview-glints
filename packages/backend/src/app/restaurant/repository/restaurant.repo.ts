@@ -76,10 +76,6 @@ export class RestaurantRepository {
     let query = this.restaurantRepo.createQueryBuilder("restaurant")
       .leftJoinAndSelect(RestaurantOpenTimeEntity, "schedules", "schedules.restaurant_id = restaurant.id")
 
-    if (!!q) {
-      query = query.where("restaurant.name ILIKE :q", { q: `%${q}%` })
-    }
-
     if (days.length > 0) {
       query = query.andWhere("schedules.day IN (:...days)", { days })
     }
@@ -88,14 +84,14 @@ export class RestaurantRepository {
       if (openTime > 0 && closeTime > 0) {
         if (openTime < closeTime) {
           query = query.andWhere(`
-          ( schedules.open_time >= :openTime and schedules.close_time between :openTime and :closeTime ) or
-          ( schedules.close_time <= :closeTime and schedules.open_time between :openTime and :closeTime )
+          schedules.open_time >= :openTime AND schedules.close_time BETWEEN :openTime and :closeTime  OR
+          schedules.close_time <= :closeTime AND schedules.open_time BETWEEN :openTime and :closeTime 
           `, { openTime, closeTime })
 
         } else if (openTime > closeTime) {
           query = query.andWhere(`
-          ( schedules.open_time >= :openTime and schedules.close_time not between :openTime and :closeTime ) or
-          ( schedules.close_time <= :closeTime and schedules.open_time not between :openTime and :closeTime )
+          schedules.open_time >= :openTime AND schedules.close_time NOT BETWEEN :openTime and :closeTime  OR
+          schedules.close_time <= :closeTime AND schedules.open_time NOT BETWEEN :openTime and :closeTime 
           `, { openTime, closeTime })
         }
       } else if (openTime > 0) {
@@ -103,6 +99,10 @@ export class RestaurantRepository {
       } else if (closeTime > 0) {
         query = query.andWhere("schedules.close_time <= :time", { time: closeTime })
       }
+    }
+
+    if (!!q) {
+      query = query.where("restaurant.name ILIKE :q", { q: `%${q}%` })
     }
 
     const total = await query.getCount()
